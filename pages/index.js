@@ -1,14 +1,26 @@
 import Head from "next/head";
 
-export default function Home() {
+import Navigation from "components/navigation";
+
+export const Index = () => {
   return (
-    <div className="container">
+    <>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Navigation></Navigation>
       no me gusta nada de esto :c
-      <style jsx>{``}</style>
-    </div>
+      <style jsx global>{`
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+      `}</style>
+    </>
   );
-}
+};
+
+export default Index;

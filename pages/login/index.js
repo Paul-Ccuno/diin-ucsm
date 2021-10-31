@@ -1,7 +1,10 @@
-export default () => {
+import Layout from "components/layout";
+import Navigation from "components/navigation";
+
+export const Login = () => {
   return (
-    <div className="login">
-      Hola mundo este es el login gaaaa
+    <>
+      <Layout>Hola mundo este es el login gaaaa</Layout>
       <style jsx>{`
         .login {
           height: 100vh;
@@ -9,6 +12,8 @@ export default () => {
           background-color: green;
         }
       `}</style>
-    </div>
+    </>
   );
 };
+
+export default Login;
