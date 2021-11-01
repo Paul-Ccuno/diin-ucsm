@@ -1,16 +1,53 @@
-import Layout from "components/layout";
-import Navigation from "components/navigation";
+import Head from "next/head";
 
-export const Login = () => {
+import Layout from "components/layout";
+import LoginContainer from "components/login";
+import { Button, TextField } from "@mui/material";
+
+const Login = () => {
   return (
     <>
-      <Layout>Hola mundo este es el login gaaaa</Layout>
+      <Head>
+        <title>Login</title>
+      </Head>
+      <Layout>
+        <LoginContainer>
+          <div className="Login">
+            <form>
+              <TextField
+                fullWidth
+                id="email"
+                label="Email"
+                variant="filled"
+                helperText="Enter your email"
+              />
+              <TextField
+                fullWidth
+                id="password"
+                label="Password"
+                variant="filled"
+                helperText="Enter your password."
+              />
+              <Button fullWidth type="submit" variant="contained">
+                Signin
+              </Button>
+            </form>
+          </div>
+        </LoginContainer>
+      </Layout>
       <style jsx>{`
-        .login {
-          height: 100vh;
-          width: 100vw;
-          background-color: green;
+        .Login {
+          width: 100%;
+          padding: 3rem;
+          box-shadow: 0 0 4px #000;
         }
+        .Login form {
+          display: flex;
+          flex-direction: column;
+        }
+        /*  .Login from ~ {
+          flex: none;
+        } */
       `}</style>
     </>
   );

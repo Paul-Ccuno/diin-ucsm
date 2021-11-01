@@ -5,6 +5,14 @@ const Layout = ({ children }) => {
     <>
       <Navigation />
       <main>{children}</main>
+
+      <style jsx>{`
+        main {
+          margin-top: 50px;
+          height: calc(100vh - 50px);
+        }
+      `}</style>
+
       <style jsx global>{`
         *,
         body {
