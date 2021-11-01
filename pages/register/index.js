@@ -1,6 +1,6 @@
-import Head from "next/head";
+import Head from "next/head"
 
-import Layout from "components/layout";
+import Layout from "components/layout"
 
 const Register = () => {
   return (
@@ -10,7 +10,7 @@ const Register = () => {
       </Head>
       <Layout>Ayuda</Layout>
     </>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

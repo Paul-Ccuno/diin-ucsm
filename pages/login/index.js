@@ -1,8 +1,8 @@
-import Head from "next/head";
+import Head from "next/head"
 
-import Layout from "components/layout";
-import LoginContainer from "components/login";
-import { Button, TextField } from "@mui/material";
+import Layout from "components/layout"
+import LoginContainer from "components/login"
+import FormLogin from "components/login/formLogin"
 
 const Login = () => {
   return (
@@ -13,25 +13,7 @@ const Login = () => {
       <Layout>
         <LoginContainer>
           <div className="Login">
-            <form>
-              <TextField
-                fullWidth
-                id="email"
-                label="Email"
-                variant="filled"
-                helperText="Enter your email"
-              />
-              <TextField
-                fullWidth
-                id="password"
-                label="Password"
-                variant="filled"
-                helperText="Enter your password."
-              />
-              <Button fullWidth type="submit" variant="contained">
-                Signin
-              </Button>
-            </form>
+            <FormLogin />
           </div>
         </LoginContainer>
       </Layout>
@@ -50,7 +32,7 @@ const Login = () => {
         } */
       `}</style>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

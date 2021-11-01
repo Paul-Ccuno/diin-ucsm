@@ -11,9 +11,10 @@ const LoginContainer = ({ children }) => {
           padding-top: 2rem;
           width: calc(100vw - 30%);
         }
+        media query
       `}</style>
     </div>
-  );
-};
+  )
+}
 
-export default LoginContainer;
+export default LoginContainer
