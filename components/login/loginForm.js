@@ -1,13 +1,17 @@
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { Button, TextField } from '@mui/material'
 
 const user = {
+	id: 2,
 	name: 'Paul',
 	email: 'pallccuno@gmail.com',
 }
 
 export default function LoginForm() {
+	const router = useRouter()
+
 	const [loginForm, setLoginForm] = useState({
 		email: '',
 		password: '',
@@ -31,6 +35,7 @@ export default function LoginForm() {
 			email: data.name,
 		})
 		localStorage.setItem('user', JSON.stringify(user))
+		router.push(`/${user.id}`)
 	}
 
 	return (

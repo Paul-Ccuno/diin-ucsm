@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import LoginContainer from 'components/login/loginContainer'
+import Container from 'components/general/Container'
 import LoginForm from 'components/login/loginForm'
 
 export default function Login() {
@@ -10,12 +10,12 @@ export default function Login() {
 				<title>Directorio de Investigadores UCSM - Login</title>
 			</Head>
 
-			<LoginContainer>
+			<Container>
 				<div className="Title">
 					<h1>Login DIIN UCSM</h1>
 				</div>
 				<LoginForm />
-			</LoginContainer>
+			</Container>
 		</>
 	)
 }

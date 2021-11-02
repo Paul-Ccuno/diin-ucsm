@@ -1,10 +1,10 @@
-export default function LoginContainer({ children }) {
+export default function Container({ children }) {
 	return (
-		<div className="Login-container">
+		<div className="Container">
 			{children}
 
 			<style jsx>{`
-				.Login-container {
+				.Container {
 					margin: auto;
 					min-width: 300px;
 					max-width: 500px;

@@ -1,7 +1,13 @@
 import Link from 'next/link'
 
+import { Button } from '@mui/material'
+
 export default function Navigation() {
-	const routes = [
+	const profile = {
+		id: 2,
+		name: 'Paul Ccuno',
+	}
+	const publicRoutes = [
 		{
 			href: '/login',
 			text: 'Login',
@@ -10,7 +16,24 @@ export default function Navigation() {
 			href: '/register',
 			text: 'Register',
 		},
+		{
+			href: '/researchers',
+			text: 'Investigadores',
+		},
 	]
+
+	const privateRoutes = [
+		{
+			href: '/profile',
+			text: `${profile.name}`,
+		},
+		{
+			href: '/researchers',
+			text: 'Investigadores',
+		},
+	]
+
+	const routes = (profile ? privateRoutes : publicRoutes) || []
 
 	return (
 		<div className="Navigation-container">
@@ -26,6 +49,13 @@ export default function Navigation() {
 							<a>{text}</a>
 						</Link>
 					))}
+					{profile ? (
+						<span className="Logout">
+							<Button color="inherit">Logout</Button>
+						</span>
+					) : (
+						'Nada'
+					)}
 				</section>
 			</nav>
 
@@ -59,6 +89,11 @@ export default function Navigation() {
 				}
 				.Navigation .Rigth a:hover {
 					backdrop-filter: saturate(0.8);
+				}
+				.Logout {
+					display: flex;
+					align-items: center;
+					color: #fff;
 				}
 			`}</style>
 		</div>
