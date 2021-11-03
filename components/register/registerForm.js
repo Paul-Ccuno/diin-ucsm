@@ -1,6 +1,13 @@
 import { Button, TextField } from '@mui/material'
 import { useState } from 'react'
 
+const textFieldStyles = {
+	fullWidth: true,
+	variant: 'standard',
+	size: 'small',
+	color: 'success',
+}
+
 export default function RegisterForm() {
 	const [registerForm, setRegisterForm] = useState({
 		name: '',
@@ -27,49 +34,34 @@ export default function RegisterForm() {
 	return (
 		<form className="Register-form" onSubmit={handleSubmitRegisterForm}>
 			<TextField
-				fullWidth
+				{...textFieldStyles}
 				label="Nombre"
-				variant="filled"
-				size="small"
-				color="success"
 				value={registerForm.name}
 				onChange={handleChangeRegisterForm('name')}
 			/>
 			<TextField
-				fullWidth
+				{...textFieldStyles}
 				label="Apellido"
-				variant="filled"
-				size="small"
-				color="success"
 				value={registerForm.lastName}
 				onChange={handleChangeRegisterForm('lastName')}
 			/>
 			<TextField
-				fullWidth
+				{...textFieldStyles}
 				label="Email"
-				variant="filled"
-				size="small"
-				color="success"
 				value={registerForm.email}
 				onChange={handleChangeRegisterForm('email')}
 			/>
 			<TextField
-				fullWidth
+				{...textFieldStyles}
 				type="password"
 				label="Password"
-				variant="filled"
-				size="small"
-				color="success"
 				value={registerForm.password}
 				onChange={handleChangeRegisterForm('password')}
 			/>
 			<TextField
-				fullWidth
+				{...textFieldStyles}
 				type="password"
 				label="Confirmar Password"
-				variant="filled"
-				size="small"
-				color="success"
 				value={registerForm.confirmPassword}
 				onChange={handleChangeRegisterForm('confirmPassword')}
 			/>

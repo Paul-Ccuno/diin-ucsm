@@ -6,8 +6,8 @@ export default function Container({ children }) {
 			<style jsx>{`
 				.Container {
 					margin: auto;
-					min-width: 300px;
-					max-width: 500px;
+					min-width: 400px;
+					max-width: 800px;
 					min-height: 500px;
 				}
 			`}</style>

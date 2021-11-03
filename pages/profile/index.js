@@ -1,5 +1,7 @@
-import Container from 'components/general/container'
+import Sidebar from 'components/navigation/Sidebar'
 import Head from 'next/head'
+
+import { publicRoutes } from 'components/navigation/routes'
 
 export default function User() {
 	const profile = {
@@ -13,9 +15,10 @@ export default function User() {
 				<title>{profile.name}</title>
 			</Head>
 
-			<Container>
-				<div className="Profile">Hola {profile.name}</div>
-			</Container>
+			<div className="Profile">
+				Hola {profile.name}
+				<Sidebar routes={publicRoutes} />
+			</div>
 			<style jsx>{`
 				.Profile {
 				}

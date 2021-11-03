@@ -15,5 +15,6 @@ a {
 }
 
 :root {
-	--theme-color: #0cb967;
+	--theme-color-primary: #0cb967;
+	--theme-color-secondary: #ffef00;
 }

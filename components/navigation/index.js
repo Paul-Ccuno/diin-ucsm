@@ -1,37 +1,17 @@
 import Link from 'next/link'
 
+import Sidebar from './Sidebar'
 import { Button } from '@mui/material'
+
+import { publicRoutes, privateRoutes } from './routes'
+import { colors } from 'styles/theme'
 
 export default function Navigation() {
 	const profile = {
 		id: 2,
 		name: 'Paul Ccuno',
 	}
-	const publicRoutes = [
-		{
-			href: '/login',
-			text: 'Login',
-		},
-		{
-			href: '/register',
-			text: 'Register',
-		},
-		{
-			href: '/researchers',
-			text: 'Investigadores',
-		},
-	]
-
-	const privateRoutes = [
-		{
-			href: '/profile',
-			text: `${profile.name}`,
-		},
-		{
-			href: '/researchers',
-			text: 'Investigadores',
-		},
-	]
+	privateRoutes[0].text = `${profile.name}`
 
 	const routes = (profile ? privateRoutes : publicRoutes) || []
 
@@ -46,7 +26,11 @@ export default function Navigation() {
 				<section className="Rigth">
 					{routes.map(({ href, text }) => (
 						<Link key={`route-${text}`} href={href}>
-							<a>{text}</a>
+							<a>
+								<Button variant="text" color="inherit">
+									{text}
+								</Button>
+							</a>
 						</Link>
 					))}
 					{profile ? (
@@ -56,6 +40,7 @@ export default function Navigation() {
 					) : (
 						'Nada'
 					)}
+					<Sidebar routes={routes} />
 				</section>
 			</nav>
 
@@ -63,32 +48,26 @@ export default function Navigation() {
 				.Navigation-container {
 					position: sticky;
 					top: 0;
-					width: 100%;
-					min-width: 300px;
-					height: 50px;
-					background-color: var(--theme-color);
+					min-width: 400px;
+					max-width: 100vw;
+					height: 70px;
+					background-color: ${colors.success};
 				}
 				.Navigation {
 					margin: auto;
 					max-width: 1000px;
-					min-width: 300px;
 					height: 100%;
 					display: flex;
 					justify-content: space-between;
 				}
+				.Navigation a {
+					color: #fff;
+				}
 				.Left,
 				.Rigth {
 					display: flex;
-				}
-				.Navigation a {
-					display: flex;
+					gap: 0.5rem;
 					align-items: center;
-					padding: 0 1rem;
-					height: 100%;
-					color: #fff;
-				}
-				.Navigation .Rigth a:hover {
-					backdrop-filter: saturate(0.8);
 				}
 				.Logout {
 					display: flex;

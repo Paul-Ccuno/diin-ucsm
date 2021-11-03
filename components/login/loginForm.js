@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { Button, TextField } from '@mui/material'
+import { Button, TextField, ThemeProvider } from '@mui/material'
+import theme from 'styles/theme'
 
 const user = {
 	id: 2,
@@ -59,9 +60,11 @@ export default function LoginForm() {
 				onChange={handleChangeLoginForm('password')}
 			/>
 
-			<Button fullWidth variant="contained" color="success" type="submit">
-				Iniciar Sesión
-			</Button>
+			<ThemeProvider theme={theme}>
+				<Button fullWidth variant="contained" color="success" type="submit">
+					Iniciar Sesión
+				</Button>
+			</ThemeProvider>
 
 			<style jsx>{`
 				form {
