@@ -1,3 +1,5 @@
+import Head from 'next/head'
+
 import Navigation from 'components/navigation'
 import Container from 'components/general/container'
 

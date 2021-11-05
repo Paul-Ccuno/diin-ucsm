@@ -1,5 +1,8 @@
+import Researcher from 'schemas/Researcher'
 import { Button, TextField } from '@mui/material'
 import { useState } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
+import { useForm } from 'react-hook-form'
 
 const textFieldStyles = {
 	fullWidth: true,
@@ -8,65 +11,99 @@ const textFieldStyles = {
 	color: 'success',
 }
 
+const formFields = {
+	dni: 'dni',
+	email: 'email',
+	password: 'password',
+	confirmPassword: 'confirmPassword',
+	name: 'name',
+	lastName: 'lastName',
+	birthDate: 'birthDate',
+	avatar: 'avatar',
+	abstract: 'abstract',
+}
+
 export default function RegisterForm() {
-	const [registerForm, setRegisterForm] = useState({
-		name: '',
-		lastName: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
+	const [loading, setLoading] = useState(false)
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(Researcher),
 	})
 
-	const handleChangeRegisterForm = (prop) => async (event) => {
-		await setRegisterForm({
-			...registerForm,
-			[prop]: event.target.value,
-		})
-	}
-
-	const handleSubmitRegisterForm = (event) => {
-		event.preventDefault()
-		if (registerForm.password === registerForm.confirmPassword) {
-			console.log('bien')
+	const handleSubmitRegisterForm = async (values) => {
+		try {
+			setLoading(true)
+			const res = await fetch('http://localhost:8000/api/auth/signup', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+				body: JSON.stringify(values),
+			})
+			const data = await res.json()
+			setLoading(false)
+			console.log(data)
+		} catch (error) {
+			console.error(error)
+			setLoading(false)
 		}
-		console.log(registerForm)
 	}
 	return (
-		<form className="Register-form" onSubmit={handleSubmitRegisterForm}>
+		<form
+			className="Register-form"
+			onSubmit={handleSubmit(handleSubmitRegisterForm)}
+		>
 			<TextField
 				{...textFieldStyles}
+				{...register(formFields.dni)}
+				type="number"
+				label="DNI"
+				error={errors[formFields.dni]?.message}
+				helperText={errors[formFields.dni]?.message}
+			/>
+			<TextField
+				{...textFieldStyles}
+				{...register(formFields.name)}
 				label="Nombre"
-				value={registerForm.name}
-				onChange={handleChangeRegisterForm('name')}
+				error={errors[formFields.name]?.message}
+				helperText={errors[formFields.name]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
+				{...register(formFields.lastName)}
 				label="Apellido"
-				value={registerForm.lastName}
-				onChange={handleChangeRegisterForm('lastName')}
+				error={errors[formFields.lastName]?.message}
+				helperText={errors[formFields.lastName]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
-				label="Email"
-				value={registerForm.email}
-				onChange={handleChangeRegisterForm('email')}
+				{...register(formFields.email)}
+				label="Correo Electrónico"
+				error={errors[formFields.email]?.message}
+				helperText={errors[formFields.email]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
+				{...register(formFields.password)}
 				type="password"
-				label="Password"
-				value={registerForm.password}
-				onChange={handleChangeRegisterForm('password')}
+				label="Contraseña"
+				error={errors[formFields.password]?.message}
+				helperText={errors[formFields.password]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
+				{...register(formFields.confirmPassword)}
 				type="password"
-				label="Confirmar Password"
-				value={registerForm.confirmPassword}
-				onChange={handleChangeRegisterForm('confirmPassword')}
+				label="Confirmar Contraseña"
+				error={errors[formFields.confirmPassword]?.message}
+				helperText={errors[formFields.confirmPassword]?.message}
 			/>
 			<Button fullWidth variant="contained" color="success" type="submit">
-				Registrar
+				{loading ? 'Cargando...' : 'Registrar'}
 			</Button>
 
 			<style jsx>{`

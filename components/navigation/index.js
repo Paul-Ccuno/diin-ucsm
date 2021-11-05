@@ -48,7 +48,7 @@ export default function Navigation() {
 				.Navigation-container {
 					position: sticky;
 					top: 0;
-					min-width: 400px;
+					min-width: 430px;
 					max-width: 100vw;
 					height: 70px;
 					background-color: ${colors.success};
