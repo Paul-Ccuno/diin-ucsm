@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 import { Button, Box, SwipeableDrawer } from '@mui/material'
 import { colors } from 'styles/theme'
+import NavigationLink from '../navigationLink'
 
 export default function Sidebar({ routes }) {
 	const [openSidebar, setOpenSidebar] = useState(false)
@@ -42,17 +43,20 @@ export default function Sidebar({ routes }) {
 				>
 					<div className="Sidebar">
 						{routes.map(({ href, text }) => (
-							<Link key={text} href={href}>
-								<a>
-									<Button
-										fullWidth
-										color="inherit"
-										style={{ justifyContent: 'left' }}
-									>
-										{text}
-									</Button>
-								</a>
-							</Link>
+							<NavigationLink
+								key={text}
+								href={href}
+								color={colors.success}
+								fullWidth
+							>
+								<Button
+									fullWidth
+									color="inherit"
+									style={{ justifyContent: 'left' }}
+								>
+									{text}
+								</Button>
+							</NavigationLink>
 						))}
 					</div>
 				</Box>
@@ -61,10 +65,6 @@ export default function Sidebar({ routes }) {
 				.Sidebar {
 					display: flex;
 					flex-direction: column;
-				}
-				.Sidebar a {
-					width: 100%;
-					color: ${colors.success};
 				}
 			`}</style>
 		</>
