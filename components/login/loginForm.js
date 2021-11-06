@@ -3,12 +3,7 @@ import { useState } from 'react'
 
 import { Button, TextField, ThemeProvider } from '@mui/material'
 import theme from 'styles/theme'
-
-const user = {
-	id: 2,
-	name: 'Paul',
-	email: 'pallccuno@gmail.com',
-}
+import { setCookies } from 'cookies-next'
 
 export default function LoginForm() {
 	const router = useRouter()
@@ -26,17 +21,22 @@ export default function LoginForm() {
 	}
 
 	const handleSubmitLoginForm = async (event) => {
-		event.preventDefault()
-		console.log(loginForm)
-		const res = await fetch('/api/hello')
-		const data = await res.json()
-		console.log(data.name)
-		setLoginForm({
-			...loginForm,
-			email: data.name,
-		})
-		localStorage.setItem('user', JSON.stringify(user))
-		router.push(`/${user.id}`)
+		try {
+			event.preventDefault()
+			const res = await fetch('http://localhost:8000/api/auth/signin', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+				body: JSON.stringify(loginForm),
+			})
+			const { user, token } = await res.json()
+			setCookies('token', token)
+			setCookies('user', user)
+			console.log(user)
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	return (

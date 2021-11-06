@@ -4,15 +4,21 @@ import { Button } from '@mui/material'
 import { publicRoutes, privateRoutes } from '../routes'
 import NavbarSection from './navbarSection'
 import NavigationLink from '../navigationLink'
+import { useEffect, useState } from 'react'
+import { getCookie } from 'cookies-next'
 
-export default function NavbarRight({ children }) {
-	const profile = {
-		id: 2,
-		name: 'Paul Ccuno',
-	}
-	privateRoutes[0].text = `${profile.name}`
-
-	const routes = (profile ? privateRoutes : publicRoutes) || []
+export default function NavbarRight({ children, user }) {
+	const [profile, setProfile] = useState(user)
+	const [routes, setRoutes] = useState(publicRoutes)
+	useEffect(() => {
+		if (user) {
+			setRoutes(privateRoutes)
+			privateRoutes[0].text = user.name
+		} else setRoutes(publicRoutes)
+		console.log('user', user)
+		const sss = getCookie('user', {})
+		console.log(sss)
+	}, [user])
 
 	return (
 		<>
@@ -29,7 +35,7 @@ export default function NavbarRight({ children }) {
 						<Button color="inherit">Logout</Button>
 					</span>
 				) : (
-					'Nada'
+					<></>
 				)}
 				<Sidebar routes={routes} />
 			</NavbarSection>

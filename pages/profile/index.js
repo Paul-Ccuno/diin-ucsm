@@ -1,7 +1,4 @@
-import Sidebar from 'components/navigation/Sidebar'
 import Head from 'next/head'
-
-import { publicRoutes } from 'components/navigation/routes'
 
 export default function User() {
 	const profile = {
@@ -15,10 +12,7 @@ export default function User() {
 				<title>{profile.name}</title>
 			</Head>
 
-			<div className="Profile">
-				Hola {profile.name}
-				<Sidebar routes={publicRoutes} />
-			</div>
+			<div className="Profile">Hola {profile.name}</div>
 			<style jsx>{`
 				.Profile {
 				}

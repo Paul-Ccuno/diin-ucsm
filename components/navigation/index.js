@@ -1,10 +1,10 @@
 import { colors } from 'styles/theme'
 import Navbar from './navbar'
 
-export default function Navigation() {
+export default function Navigation({ user }) {
 	return (
 		<div className="Navigation-container">
-			<Navbar />
+			<Navbar user={user} />
 
 			<style jsx>{`
 				.Navigation-container {

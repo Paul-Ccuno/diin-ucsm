@@ -1,17 +1,17 @@
-import Head from 'next/head'
-
 import Navigation from 'components/navigation'
 import Container from 'components/general/container'
 
 import 'styles/globals.css'
 import { ThemeProvider } from '@mui/material'
 import theme from 'styles/theme'
+import { getCookie } from 'cookies-next'
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps, user = null }) {
+	console.log('user', user)
 	return (
 		<>
 			<ThemeProvider theme={theme}>
-				<Navigation />
+				<Navigation user={user} />
 				<Container>
 					<Component {...pageProps} />
 				</Container>
@@ -20,4 +20,12 @@ function MyApp({ Component, pageProps }) {
 	)
 }
 
-export default MyApp
+App.getInitialProps = ({ ctx }) => {
+	const { req, res } = ctx
+	const user = JSON.parse(req.cookies.user || null)
+	console.log(user)
+
+	return { user: user }
+}
+
+export default App
