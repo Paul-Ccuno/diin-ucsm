@@ -1,10 +1,8 @@
 import Head from 'next/head'
+import { useState } from 'react'
 
-export default function User() {
-	const profile = {
-		id: 2,
-		name: 'Paul Ccuno',
-	}
+function Profile({ user, token }) {
+	const [profile, setProfile] = useState(user)
 
 	return (
 		<>
@@ -20,3 +18,21 @@ export default function User() {
 		</>
 	)
 }
+
+export const getServerSideProps = ({ req, res }) => {
+	const user = JSON.parse(req.cookies.user)
+	const token = req.cookies.token
+
+	if (user && token) {
+		return { props: { user, token } }
+	} else {
+		return {
+			redirect: {
+				destination: '/login',
+				permanent: false,
+			},
+		}
+	}
+}
+
+export default Profile

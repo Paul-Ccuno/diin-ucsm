@@ -5,7 +5,7 @@ export default function NavbarLeft() {
 	return (
 		<>
 			<NavbarSection>
-				<NavigationLink href="">UCSM DIIN</NavigationLink>
+				<NavigationLink href="/">UCSM DIIN</NavigationLink>
 			</NavbarSection>
 			<style jsx>{``}</style>
 		</>

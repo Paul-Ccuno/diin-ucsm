@@ -1,28 +1,37 @@
 import Sidebar from '../sidebar'
 import { Button } from '@mui/material'
 
-import { publicRoutes, privateRoutes } from '../routes'
+import { commonRoutes, publicRoutes, privateRoutes } from '../routes'
 import NavbarSection from './navbarSection'
 import NavigationLink from '../navigationLink'
 import { useEffect, useState } from 'react'
 import { getCookie } from 'cookies-next'
 
-export default function NavbarRight({ children, user }) {
+export default function NavbarRight({ children }) {
+	const user = JSON.parse(getCookie('user') || null)
+
 	const [profile, setProfile] = useState(user)
-	const [routes, setRoutes] = useState(publicRoutes)
+	const [routes, setRoutes] = useState([])
+
 	useEffect(() => {
 		if (user) {
-			setRoutes(privateRoutes)
 			privateRoutes[0].text = user.name
-		} else setRoutes(publicRoutes)
-		console.log('user', user)
-		const sss = getCookie('user', {})
-		console.log(sss)
+			setRoutes(privateRoutes)
+		} else {
+			setRoutes(publicRoutes)
+		}
 	}, [user])
 
 	return (
 		<>
 			<NavbarSection>
+				{commonRoutes.map(({ href, text }) => (
+					<NavigationLink key={`route-${text}`} href={href}>
+						<Button variant="text" color="inherit">
+							{text}
+						</Button>
+					</NavigationLink>
+				))}
 				{routes.map(({ href, text }) => (
 					<NavigationLink key={`route-${text}`} href={href}>
 						<Button variant="text" color="inherit">
@@ -37,7 +46,7 @@ export default function NavbarRight({ children, user }) {
 				) : (
 					<></>
 				)}
-				<Sidebar routes={routes} />
+				<Sidebar routes={[...commonRoutes, ...routes]} />
 			</NavbarSection>
 			<style jsx>{`
 				.Logout {

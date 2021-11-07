@@ -31,9 +31,15 @@ export default function LoginForm() {
 				body: JSON.stringify(loginForm),
 			})
 			const { user, token } = await res.json()
-			setCookies('token', token)
 			setCookies('user', user)
-			console.log(user)
+			const resToken = await fetch('/api/auth', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+				body: JSON.stringify({ token }),
+			})
+			router.push('/profile')
 		} catch (error) {
 			console.error(error)
 		}
