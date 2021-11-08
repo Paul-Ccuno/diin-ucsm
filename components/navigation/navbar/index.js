@@ -10,6 +10,7 @@ export default function Navbar() {
 				.Navbar {
 					margin: auto;
 					max-width: 1000px;
+					padding: 0 1rem;
 					height: 100%;
 					display: flex;
 					justify-content: space-between;

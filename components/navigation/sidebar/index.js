@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { useState } from 'react'
+import HamburgerIcon from 'icons/hamburgerIcon'
 
 import { Button, Box, SwipeableDrawer } from '@mui/material'
 import { colors } from 'styles/theme'
@@ -25,9 +25,14 @@ export default function Sidebar({ routes }) {
 			<Button
 				variant="outlined"
 				onClick={toggleDrawer(true)}
-				style={{ color: '#fff', borderColor: '#fff' }}
+				style={{
+					color: '#fff',
+					borderColor: '#fff',
+					padding: 0,
+					minWidth: '40px',
+				}}
 			>
-				Left
+				<HamburgerIcon color="#fff" />
 			</Button>
 			<SwipeableDrawer
 				anchor="left"
@@ -53,6 +58,7 @@ export default function Sidebar({ routes }) {
 									fullWidth
 									color="inherit"
 									style={{ justifyContent: 'left' }}
+									size="large"
 								>
 									{text}
 								</Button>

@@ -16,6 +16,13 @@ function App({ Component, pageProps }) {
 					<Component {...pageProps} />
 				</Container>
 			</ThemeProvider>
+			<style jsx>{`
+				@media (max-width: 500px) {
+					html,
+					body {
+					}
+				}
+			`}</style>
 		</>
 	)
 }

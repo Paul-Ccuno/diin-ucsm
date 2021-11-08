@@ -12,8 +12,12 @@ export default function Navigation() {
 					top: 0;
 					min-width: 430px;
 					max-width: 100vw;
-					height: 70px;
+					height: 60px;
 					background-color: ${colors.success};
+				}
+				@media (max-width: 500px) {
+					.Navigation-container {
+					}
 				}
 			`}</style>
 		</div>

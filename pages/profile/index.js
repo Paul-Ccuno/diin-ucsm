@@ -20,8 +20,8 @@ function Profile({ user, token }) {
 }
 
 export const getServerSideProps = ({ req, res }) => {
-	const user = JSON.parse(req.cookies.user)
-	const token = req.cookies.token
+	const user = JSON.parse(req.cookies.user || null)
+	const token = req.cookies.token || null
 
 	if (user && token) {
 		return { props: { user, token } }

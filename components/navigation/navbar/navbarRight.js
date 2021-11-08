@@ -7,11 +7,25 @@ import NavigationLink from '../navigationLink'
 import { useEffect, useState } from 'react'
 import { getCookie } from 'cookies-next'
 
+const getWindowSize = () => {
+	const { innerWidth } = window
+	return innerWidth
+}
+
 export default function NavbarRight({ children }) {
 	const user = JSON.parse(getCookie('user') || null)
 
 	const [profile, setProfile] = useState(user)
 	const [routes, setRoutes] = useState([])
+	const [windowSize, setWindowSize] = useState(null)
+
+	useEffect(() => {
+		if (!windowSize) setWindowSize(getWindowSize)
+		window.addEventListener('resize', () => {
+			setWindowSize(getWindowSize)
+		})
+		return () => window.removeEventListener('resize', getWindowSize)
+	}, [])
 
 	useEffect(() => {
 		if (user) {
@@ -22,12 +36,12 @@ export default function NavbarRight({ children }) {
 		}
 	}, [user])
 
-	return (
-		<>
-			<NavbarSection>
+	const DesktopNavbar = () => {
+		return (
+			<>
 				{commonRoutes.map(({ href, text }) => (
 					<NavigationLink key={`route-${text}`} href={href}>
-						<Button variant="text" color="inherit">
+						<Button variant="text" color="inherit" size="large">
 							{text}
 						</Button>
 					</NavigationLink>
@@ -39,14 +53,27 @@ export default function NavbarRight({ children }) {
 						</Button>
 					</NavigationLink>
 				))}
-				{profile ? (
+				{profile && (
 					<span className="Logout">
 						<Button color="inherit">Logout</Button>
 					</span>
-				) : (
-					<></>
 				)}
+			</>
+		)
+	}
+
+	const MobileNavbar = () => {
+		return (
+			<>
 				<Sidebar routes={[...commonRoutes, ...routes]} />
+			</>
+		)
+	}
+
+	return (
+		<>
+			<NavbarSection>
+				{windowSize < 600 ? MobileNavbar() : DesktopNavbar()}
 			</NavbarSection>
 			<style jsx>{`
 				.Logout {
