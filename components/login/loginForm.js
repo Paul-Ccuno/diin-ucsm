@@ -1,34 +1,41 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import { Button, TextField, ThemeProvider } from '@mui/material'
+import Login, { loginFields } from 'schemas/Login'
+import { Button, TextField, Loading } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import theme from 'styles/theme'
 import { setCookies } from 'cookies-next'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
+
+const textFieldStyles = {
+	fullWidth: true,
+	variant: 'standard',
+	size: 'small',
+	color: 'success',
+}
 
 export default function LoginForm() {
 	const router = useRouter()
 
-	const [loginForm, setLoginForm] = useState({
-		email: '',
-		password: '',
-	})
+	const [isLoading, setIsLoading] = useState(false)
 
-	const handleChangeLoginForm = (prop) => (event) => {
-		setLoginForm({
-			...loginForm,
-			[prop]: event.target.value,
-		})
-	}
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({ resolver: yupResolver(Login) })
 
-	const handleSubmitLoginForm = async (event) => {
+	const handleSubmitLoginForm = async (values) => {
 		try {
-			event.preventDefault()
+			setIsLoading(true)
 			const res = await fetch('http://localhost:8000/api/auth/signin', {
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				method: 'POST',
-				body: JSON.stringify(loginForm),
+				body: JSON.stringify(values),
 			})
 			const { user, token } = await res.json()
 			setCookies('user', user)
@@ -40,37 +47,40 @@ export default function LoginForm() {
 				body: JSON.stringify({ token }),
 			})
 			router.push('/profile')
+			setIsLoading(false)
 		} catch (error) {
 			console.error(error)
+			setIsLoading(false)
 		}
 	}
 
 	return (
-		<form onSubmit={handleSubmitLoginForm}>
+		<form onSubmit={handleSubmit(handleSubmitLoginForm)}>
 			<TextField
-				fullWidth
-				label="Email"
-				variant="filled"
-				size="small"
-				color="success"
-				value={loginForm.email}
-				onChange={handleChangeLoginForm('email')}
+				{...textFieldStyles}
+				{...register(loginFields.email)}
+				label="Correo Electrónico"
+				error={errors[loginFields.email]?.message}
+				helperText={errors[loginFields.email]?.message}
 			/>
 			<TextField
-				fullWidth
-				label="Password"
-				variant="filled"
-				size="small"
-				color="success"
-				value={loginForm.password}
-				onChange={handleChangeLoginForm('password')}
+				{...textFieldStyles}
+				{...register(loginFields.password)}
+				type="password"
+				label="Contraseña"
+				error={errors[loginFields.password]?.message}
+				helperText={errors[loginFields.password]?.message}
 			/>
 
-			<ThemeProvider theme={theme}>
-				<Button fullWidth variant="contained" color="success" type="submit">
-					Iniciar Sesión
-				</Button>
-			</ThemeProvider>
+			<LoadingButton
+				fullWidth
+				loading={isLoading}
+				variant="contained"
+				color="success"
+				type="submit"
+			>
+				Iniciar Sesión
+			</LoadingButton>
 
 			<style jsx>{`
 				form {

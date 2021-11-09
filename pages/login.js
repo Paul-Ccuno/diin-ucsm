@@ -16,3 +16,19 @@ export default function Login() {
 		</>
 	)
 }
+
+export const getServerSideProps = ({ req, res }) => {
+	const user = JSON.parse(req.cookies.user || null)
+	const token = req.cookies.token || null
+
+	if (user && token) {
+		return {
+			redirect: {
+				destination: '/profile',
+				permanent: false,
+			},
+		}
+	}
+
+	return { props: {} }
+}
