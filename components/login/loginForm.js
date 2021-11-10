@@ -2,12 +2,11 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import Login, { loginFields } from 'schemas/Login'
-import { Button, TextField, Loading } from '@mui/material'
+import { Button, TextField, Alert } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import theme from 'styles/theme'
-import { setCookies } from 'cookies-next'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
+import api from 'services/api'
 
 const textFieldStyles = {
 	fullWidth: true,
@@ -19,6 +18,7 @@ const textFieldStyles = {
 export default function LoginForm() {
 	const router = useRouter()
 
+	const [badRequest, setBadRequest] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 
 	const {
@@ -30,26 +30,14 @@ export default function LoginForm() {
 	const handleSubmitLoginForm = async (values) => {
 		try {
 			setIsLoading(true)
-			const res = await fetch('http://localhost:8000/api/auth/signin', {
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-				body: JSON.stringify(values),
-			})
-			const { user, token } = await res.json()
-			setCookies('user', user)
-			const resToken = await fetch('/api/auth', {
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-				body: JSON.stringify({ token }),
-			})
-			router.push('/profile')
+			console.log(values)
+			const res = await api.auth.signin(values)
 			setIsLoading(false)
+			router.push('/profile')
 		} catch (error) {
-			console.error(error)
+			console.log(error)
+			setBadRequest(error || '')
+			// setBadRequest('Correo electrónico o contraseña incorrecta')
 			setIsLoading(false)
 		}
 	}
@@ -60,7 +48,7 @@ export default function LoginForm() {
 				{...textFieldStyles}
 				{...register(loginFields.email)}
 				label="Correo Electrónico"
-				error={errors[loginFields.email]?.message}
+				error={errors[loginFields.email]?.message && true}
 				helperText={errors[loginFields.email]?.message}
 			/>
 			<TextField
@@ -68,7 +56,7 @@ export default function LoginForm() {
 				{...register(loginFields.password)}
 				type="password"
 				label="Contraseña"
-				error={errors[loginFields.password]?.message}
+				error={errors[loginFields.password]?.message && true}
 				helperText={errors[loginFields.password]?.message}
 			/>
 
@@ -81,6 +69,7 @@ export default function LoginForm() {
 			>
 				Iniciar Sesión
 			</LoadingButton>
+			{badRequest && <Alert severity="error">{badRequest || ''}</Alert>}
 
 			<style jsx>{`
 				form {

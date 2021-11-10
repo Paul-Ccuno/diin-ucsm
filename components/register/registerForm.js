@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { useForm } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
 import { useRouter } from 'next/router'
+import api from 'services/api'
 
 const textFieldStyles = {
 	fullWidth: true,
@@ -16,6 +17,7 @@ const textFieldStyles = {
 export default function RegisterForm() {
 	const router = useRouter()
 
+	const [badRequest, setBadRequest] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 
 	const {
@@ -29,19 +31,13 @@ export default function RegisterForm() {
 	const handleSubmitRegisterForm = async (values) => {
 		try {
 			setIsLoading(true)
-			const res = await fetch('http://localhost:8000/api/auth/signup', {
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-				body: JSON.stringify(values),
-			})
-			const data = await res.json()
+			const res = await api.auth.signup(values)
+			console.log(res)
 			setIsLoading(false)
-			console.log(data)
 			router.push('/login')
 		} catch (error) {
 			console.error(error)
+			setBadRequest('El usuario ingresado ya existe')
 			setIsLoading(false)
 		}
 	}
@@ -104,7 +100,7 @@ export default function RegisterForm() {
 			>
 				Registrar
 			</LoadingButton>
-			{'errores'}
+			{badRequest && badRequest}
 
 			<style jsx>{`
 				.Register-form {

@@ -1,4 +1,4 @@
-import { EMPTY, VALID } from 'errors/es'
+import { EMPTY, VALID } from 'schemas/errors/es'
 import * as yup from 'yup'
 
 export const loginFields = {

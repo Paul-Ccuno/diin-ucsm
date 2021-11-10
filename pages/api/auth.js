@@ -1,7 +1,6 @@
 import cookie from 'cookie'
 
 export default function post(req, res) {
-	console.log(req.body.token)
 	res.setHeader(
 		'Set-Cookie',
 		cookie.serialize('token', req.body.token, {
