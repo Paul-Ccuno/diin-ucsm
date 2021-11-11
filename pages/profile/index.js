@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import { useState } from 'react'
+import api from 'services/api'
 
-function Profile({ user, token }) {
-	const [profile, setProfile] = useState(user)
+function Profile({ user, token, researcher }) {
+	const [profile, setProfile] = useState(researcher.data)
 
 	return (
 		<>
@@ -10,7 +11,13 @@ function Profile({ user, token }) {
 				<title>{profile.name}</title>
 			</Head>
 
-			<div className="Profile">Hola {profile.name}</div>
+			<div className="Profile">
+				Hola {profile.name}
+				DNI: {profile.dni}
+				Nombre: {profile.name}
+				Apellido: {profile.lastName}
+				Email: {profile.email}
+			</div>
 			<style jsx>{`
 				.Profile {
 				}
@@ -19,12 +26,19 @@ function Profile({ user, token }) {
 	)
 }
 
-export const getServerSideProps = ({ req, res }) => {
+export const getServerSideProps = async ({ req, res }) => {
 	const user = JSON.parse(req.cookies.user || null)
 	const token = req.cookies.token || null
+	console.log(user)
+
+	const response = await api.researchers.getResearcher({
+		id: user._id,
+		token,
+	})
+	const researcher = response
 
 	if (user && token) {
-		return { props: { user, token } }
+		return { props: { user, token, researcher } }
 	} else {
 		return {
 			redirect: {
