@@ -27,4 +27,13 @@ function App({ Component, pageProps }) {
 	)
 }
 
+App.getInitialProps = async (appContext) => {
+	const { req, res } = appContext.ctx
+
+	console.log({ ...req.cookies })
+	// const { user, token } =
+	// console.log(user, token)
+	return { props: {} }
+}
+
 export default App

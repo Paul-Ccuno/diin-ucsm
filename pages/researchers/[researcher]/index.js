@@ -15,3 +15,7 @@ export default function Researcher() {
 		</>
 	)
 }
+
+export const getServerSideProps = ({ req, res }) => {
+	return { props: {} }
+}

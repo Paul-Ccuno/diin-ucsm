@@ -9,7 +9,7 @@ async function send({ method, url, data, token }) {
 				...(token ? { Authorization: `${AUTH_SECRET} ${token}` } : {}),
 			},
 			method,
-			baseURL: API_BASE_URL,
+			baseURL: `${API_BASE_URL}/api`,
 			url,
 			data,
 		})

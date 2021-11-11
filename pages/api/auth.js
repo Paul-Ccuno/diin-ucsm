@@ -14,3 +14,14 @@ export default function post(req, res) {
 	res.statusCode = 200
 	res.json({ success: true })
 }
+
+export function del(req, res) {
+	res.setHeader(
+		'Set-Cookie',
+		cookie.serialize('token', '', {
+			expires: new Date(),
+		})
+	)
+	res.statusCode = 200
+	res.json({ success: true })
+}

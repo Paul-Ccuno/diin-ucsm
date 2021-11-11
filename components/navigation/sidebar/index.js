@@ -1,11 +1,21 @@
-import { useState } from 'react'
-import HamburgerIcon from 'icons/hamburgerIcon'
-
-import { Button, Box, SwipeableDrawer } from '@mui/material'
+import { useState, useEffect } from 'react'
+import HamburgerIcon from 'assets/icons/hamburgerIcon'
+import { Button, Box, SwipeableDrawer, Avatar } from '@mui/material'
 import { colors } from 'styles/theme'
 import NavigationLink from '../navigationLink'
+import LogoDiin from 'components/general/logo'
+import { getCookie } from 'cookies-next'
+import Logout from '../logout'
+
+const buttonStyles = {
+	fullWidth: true,
+	color: 'success',
+	style: { justifyContent: 'left', textTransform: 'initial' },
+	size: 'large',
+}
 
 export default function Sidebar({ routes }) {
+	const user = JSON.parse(getCookie('user') || null)
 	const [openSidebar, setOpenSidebar] = useState(false)
 
 	const toggleDrawer = (open) => (event) => {
@@ -13,9 +23,8 @@ export default function Sidebar({ routes }) {
 			event &&
 			event.type === 'keydown' &&
 			(event.key === 'Tab' || event.key === 'Shift')
-		) {
+		)
 			return
-		}
 
 		setOpenSidebar(open)
 	}
@@ -47,6 +56,19 @@ export default function Sidebar({ routes }) {
 					onKeyDown={toggleDrawer(false)}
 				>
 					<div className="Sidebar">
+						<section className="Profile">
+							{user ? (
+								<>
+									<Avatar
+										alt="Nombre del usuario"
+										style={{ backgroundColor: '#ddd' }}
+									/>
+									<span className="Profile__text">{`${user.name} ${user.lastName}`}</span>
+								</>
+							) : (
+								<LogoDiin />
+							)}
+						</section>
 						{routes.map(({ href, text }) => (
 							<NavigationLink
 								key={text}
@@ -54,16 +76,10 @@ export default function Sidebar({ routes }) {
 								color={colors.success}
 								fullWidth
 							>
-								<Button
-									fullWidth
-									color="inherit"
-									style={{ justifyContent: 'left' }}
-									size="large"
-								>
-									{text}
-								</Button>
+								<Button {...buttonStyles}>{text}</Button>
 							</NavigationLink>
 						))}
+						{user && <Logout color={colors.success} />}
 					</div>
 				</Box>
 			</SwipeableDrawer>
@@ -71,6 +87,22 @@ export default function Sidebar({ routes }) {
 				.Sidebar {
 					display: flex;
 					flex-direction: column;
+				}
+				.Profile {
+					display: flex;
+					align-items: center;
+					padding: 0 1rem;
+					height: 60px;
+					background-color: ${colors.success};
+					color: #fff;
+				}
+				.Profile__text {
+					display: -webkit-inline-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;
+					overflow: hidden;
+					margin-left: 0.5rem;
+					font-size: 0.95rem;
 				}
 			`}</style>
 		</>

@@ -19,6 +19,7 @@ export default function LoginForm() {
 	const router = useRouter()
 
 	const [badRequest, setBadRequest] = useState(null)
+	const [successRequest, setSuccessRequest] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 
 	const {
@@ -30,12 +31,11 @@ export default function LoginForm() {
 	const handleSubmitLoginForm = async (values) => {
 		try {
 			setIsLoading(true)
-			console.log(values)
 			const res = await api.auth.signin(values)
+			setSuccessRequest(true)
 			setIsLoading(false)
 			router.push('/profile')
 		} catch (error) {
-			console.log(error)
 			setBadRequest(error || '')
 			// setBadRequest('Correo electrónico o contraseña incorrecta')
 			setIsLoading(false)
@@ -69,7 +69,11 @@ export default function LoginForm() {
 			>
 				Iniciar Sesión
 			</LoadingButton>
-			{badRequest && <Alert severity="error">{badRequest || ''}</Alert>}
+			{successRequest ? (
+				<Alert severety="success">Usuario logeado correctamente</Alert>
+			) : (
+				badRequest && <Alert severity="error">{badRequest || ''}</Alert>
+			)}
 
 			<style jsx>{`
 				form {

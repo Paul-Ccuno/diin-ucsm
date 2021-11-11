@@ -14,6 +14,8 @@ export default function NavigationLink({
 			</Link>
 			<style jsx>{`
 				.Navigation-link {
+					display: flex;
+					align-items: center;
 					color: ${color};
 					width: ${fullwidth ? '100%' : width};
 				}

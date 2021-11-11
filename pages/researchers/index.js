@@ -21,3 +21,7 @@ export default function Researchers() {
 		</>
 	)
 }
+
+export const getServerSideProps = ({ req, res }) => {
+	return { props: {} }
+}
