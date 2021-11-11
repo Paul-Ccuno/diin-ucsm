@@ -27,26 +27,26 @@ function Profile({ user, token, researcher }) {
 }
 
 export const getServerSideProps = async ({ req, res }) => {
-	const user = JSON.parse(req.cookies.user || null)
-	const token = req.cookies.token || null
-	console.log(user)
+	try {
+		const user = JSON.parse(req.cookies.user || null)
+		const token = req.cookies.token || null
 
-	const response = await api.researchers.getResearcher({
-		id: user._id,
-		token,
-	})
-	const researcher = response
-
-	if (user && token) {
-		return { props: { user, token, researcher } }
-	} else {
-		return {
-			redirect: {
-				destination: '/login',
-				permanent: false,
-			},
+		if (!user && !token) {
+			return {
+				redirect: {
+					destination: '/login',
+					permanent: false,
+				},
+			}
 		}
-	}
+
+		const researcher = await api.researchers.getResearcher({
+			id: user._id,
+			token,
+		})
+
+		return { props: { user, token, researcher } }
+	} catch (error) {}
 }
 
 export default Profile
