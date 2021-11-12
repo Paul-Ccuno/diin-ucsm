@@ -1,6 +1,6 @@
-import NavbarSection from './navbarSection'
-import NavigationLink from '../navigationLink'
-import LogoDiin from 'components/general/logo'
+import NavbarSection from './NavbarSection'
+import NavigationLink from '../NavigationLink'
+import LogoDiin from 'components/General/Logo'
 
 export default function NavbarLeft() {
 	return (

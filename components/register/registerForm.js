@@ -1,5 +1,5 @@
 import Researcher, { researcherFields } from 'schemas/Researcher'
-import { Button, TextField } from '@mui/material'
+import { Alert, Button, TextField } from '@mui/material'
 import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { useForm } from 'react-hook-form'
@@ -17,6 +17,7 @@ const textFieldStyles = {
 export default function RegisterForm() {
 	const router = useRouter()
 
+	const [successRequest, setSuccessRequest] = useState(false)
 	const [badRequest, setBadRequest] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -33,7 +34,7 @@ export default function RegisterForm() {
 			setIsLoading(true)
 			const res = await api.auth.signup(values)
 			console.log(res)
-			setIsLoading(false)
+			setSuccessRequest(true)
 			router.push('/login')
 		} catch (error) {
 			console.error(error)
@@ -71,6 +72,7 @@ export default function RegisterForm() {
 			<TextField
 				{...textFieldStyles}
 				{...register(researcherFields.email)}
+				type="email"
 				label="Correo Electrónico"
 				error={errors[researcherFields.email]?.message}
 				helperText={errors[researcherFields.email]?.message}
@@ -100,7 +102,11 @@ export default function RegisterForm() {
 			>
 				Registrar
 			</LoadingButton>
-			{badRequest && badRequest}
+			{successRequest ? (
+				<Alert severity="success">Usuario registrado correctamente</Alert>
+			) : (
+				badRequest && <Alert severity="error">{badRequest || ''}</Alert>
+			)}
 
 			<style jsx>{`
 				.Register-form {

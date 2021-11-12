@@ -2,8 +2,11 @@ import Head from 'next/head'
 import { useState } from 'react'
 import api from 'services/api'
 
-function Profile({ user, token, researcher }) {
-	const [profile, setProfile] = useState(researcher.data)
+import ProfileContainer from 'components/Researchers/ProfileContainer'
+import Profile from 'components/Profile'
+
+function ProfilePage({ user, token, researcher }) {
+	const [profile, setProfile] = useState(researcher)
 
 	return (
 		<>
@@ -11,15 +14,14 @@ function Profile({ user, token, researcher }) {
 				<title>{profile.name}</title>
 			</Head>
 
-			<div className="Profile">
-				Hola {profile.name}
-				DNI: {profile.dni}
-				Nombre: {profile.name}
-				Apellido: {profile.lastName}
-				Email: {profile.email}
-			</div>
+			<ProfileContainer>
+				<Profile profile={researcher} />
+			</ProfileContainer>
+
 			<style jsx>{`
 				.Profile {
+					font-size: 0.9rem;
+					padding-top: 1rem;
 				}
 			`}</style>
 		</>
@@ -31,7 +33,9 @@ export const getServerSideProps = async ({ req, res }) => {
 		const user = JSON.parse(req.cookies.user || null)
 		const token = req.cookies.token || null
 
-		if (!user && !token) {
+		console.log(user, token)
+
+		if (!user || !token) {
 			return {
 				redirect: {
 					destination: '/login',
@@ -49,4 +53,4 @@ export const getServerSideProps = async ({ req, res }) => {
 	} catch (error) {}
 }
 
-export default Profile
+export default ProfilePage

@@ -1,5 +1,5 @@
-import Navigation from 'components/navigation'
-import Container from 'components/general/container'
+import Navigation from 'components/Navigation'
+import Container from 'components/General/Container'
 
 import 'styles/globals.css'
 import { ThemeProvider } from '@mui/material'
@@ -30,8 +30,8 @@ function App({ Component, pageProps }) {
 App.getInitialProps = async (appContext) => {
 	const { req, res } = appContext.ctx
 
-	console.log({ ...req.cookies })
-	// const { user, token } =
+	// console.log({ ...req.cookies })
+	// const { user, token } = req.cookies
 	// console.log(user, token)
 	return { props: {} }
 }

@@ -7,7 +7,8 @@ export const fonts = {
 
 export const colors = {
 	primary: '#38b4bf',
-	secondary: '#fbf100',
+	// secondary: '#fbf100',
+	secondary: '#bbb',
 	success: '#00bf66',
 }
 
@@ -22,8 +23,9 @@ const theme = createTheme({
 		secondary: {
 			// light: ,
 			main: colors.secondary,
-			// dark: ,
-			// contrastText
+			// dark: '#e5db00',
+			dark: '#ababab',
+			contrastText: '#fff',
 		},
 		success: {
 			// light: ,

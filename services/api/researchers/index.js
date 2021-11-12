@@ -8,8 +8,8 @@ export const getResearcher = async ({ id, token }) => {
 			url: `${URL}/${id}`,
 			token,
 		})
-		console.log('usuario encontrado', res)
-		if (res.success) return res
+
+		if (res.success) return res.data
 		throw res.message
 	} catch (error) {
 		console.error(error)

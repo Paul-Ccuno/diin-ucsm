@@ -1,12 +1,12 @@
-import Sidebar from '../sidebar'
+import Sidebar from '../Sidebar'
 import { Button } from '@mui/material'
 
 import { commonRoutes, publicRoutes, privateRoutes } from '../routes'
-import NavbarSection from './navbarSection'
-import NavigationLink from '../navigationLink'
+import NavbarSection from './NavbarSection'
+import NavigationLink from '../NavigationLink'
 import { useEffect, useState } from 'react'
 import { getCookie } from 'cookies-next'
-import Logout from '../logout'
+import Logout from '../Logout'
 
 const buttonStyles = {
 	variant: 'text',

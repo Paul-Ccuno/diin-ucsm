@@ -33,7 +33,6 @@ export default function LoginForm() {
 			setIsLoading(true)
 			const res = await api.auth.signin(values)
 			setSuccessRequest(true)
-			setIsLoading(false)
 			router.push('/profile')
 		} catch (error) {
 			setBadRequest(error || '')
@@ -47,6 +46,7 @@ export default function LoginForm() {
 			<TextField
 				{...textFieldStyles}
 				{...register(loginFields.email)}
+				type="email"
 				label="Correo Electrónico"
 				error={errors[loginFields.email]?.message && true}
 				helperText={errors[loginFields.email]?.message}

@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import HamburgerIcon from 'assets/icons/hamburgerIcon'
 import { Button, Box, SwipeableDrawer, Avatar } from '@mui/material'
 import { colors } from 'styles/theme'
-import NavigationLink from '../navigationLink'
-import LogoDiin from 'components/general/logo'
+import NavigationLink from '../NavigationLink'
+import LogoDiin from 'components/General/Logo'
 import { getCookie } from 'cookies-next'
-import Logout from '../logout'
+import Logout from '../Logout'
 
 const buttonStyles = {
 	fullWidth: true,

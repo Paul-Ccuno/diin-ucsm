@@ -1,5 +1,5 @@
 import { colors } from 'styles/theme'
-import Navbar from './navbar'
+import Navbar from './Navbar'
 
 export default function Navigation() {
 	return (
@@ -12,8 +12,9 @@ export default function Navigation() {
 					top: 0;
 					min-width: 430px;
 					max-width: 100vw;
-					height: 60px;
+					height: 3.75rem;
 					background-color: ${colors.success};
+					z-index: 1;
 				}
 				@media (max-width: 500px) {
 					.Navigation-container {
