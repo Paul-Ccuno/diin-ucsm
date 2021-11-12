@@ -61,7 +61,9 @@ export default function PersonalData({ researcher, isAuthenticated = false }) {
 					height: 30vw;
 					width: 30vw;
 					min-height: 200px;
+					max-height: 400px;
 					min-width: 200px;
+					max-width: 400px;
 				}
 				.data-profile {
 					display: flex;
