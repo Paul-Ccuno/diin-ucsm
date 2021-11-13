@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import HamburgerIcon from 'assets/icons/hamburgerIcon'
-import { Button, Box, SwipeableDrawer, Avatar } from '@mui/material'
+import { Button, Box, SwipeableDrawer, Avatar, IconButton } from '@mui/material'
 import { colors } from 'styles/theme'
 import NavigationLink from '../NavigationLink'
 import LogoDiin from 'components/General/Logo'
 import { getCookie } from 'cookies-next'
 import Logout from '../Logout'
+import { MenuRounded } from '@mui/icons-material'
 
 const buttonStyles = {
 	fullWidth: true,
@@ -14,8 +15,7 @@ const buttonStyles = {
 	size: 'large',
 }
 
-export default function Sidebar({ routes }) {
-	const user = JSON.parse(getCookie('user') || null)
+export default function Sidebar({ routes, user, token }) {
 	const [openSidebar, setOpenSidebar] = useState(false)
 
 	const toggleDrawer = (open) => (event) => {
@@ -28,21 +28,11 @@ export default function Sidebar({ routes }) {
 
 		setOpenSidebar(open)
 	}
-
 	return (
 		<>
-			<Button
-				variant="outlined"
-				onClick={toggleDrawer(true)}
-				style={{
-					color: '#fff',
-					borderColor: '#fff',
-					padding: 0,
-					minWidth: '40px',
-				}}
-			>
-				<HamburgerIcon color="#fff" />
-			</Button>
+			<IconButton style={{ color: '#fff' }} onClick={toggleDrawer(true)}>
+				<MenuRounded />
+			</IconButton>
 			<SwipeableDrawer
 				anchor="left"
 				open={openSidebar}

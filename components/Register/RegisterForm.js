@@ -1,4 +1,4 @@
-import Researcher, { researcherFields } from 'schemas/Researcher'
+import Register, { registerFields } from 'schemas/Register.schema'
 import { Alert, Button, TextField } from '@mui/material'
 import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
@@ -26,7 +26,7 @@ export default function RegisterForm() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		resolver: yupResolver(Researcher),
+		resolver: yupResolver(Register),
 	})
 
 	const handleSubmitRegisterForm = async (values) => {
@@ -49,49 +49,49 @@ export default function RegisterForm() {
 		>
 			<TextField
 				{...textFieldStyles}
-				{...register(researcherFields.dni)}
+				{...register(registerFields.dni)}
 				type="number"
 				label="DNI"
-				error={errors[researcherFields.dni]?.message}
-				helperText={errors[researcherFields.dni]?.message}
+				error={errors[registerFields.dni]?.message}
+				helperText={errors[registerFields.dni]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
-				{...register(researcherFields.name)}
+				{...register(registerFields.name)}
 				label="Nombre"
-				error={errors[researcherFields.name]?.message}
-				helperText={errors[researcherFields.name]?.message}
+				error={errors[registerFields.name]?.message}
+				helperText={errors[registerFields.name]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
-				{...register(researcherFields.lastName)}
+				{...register(registerFields.lastName)}
 				label="Apellido"
-				error={errors[researcherFields.lastName]?.message}
-				helperText={errors[researcherFields.lastName]?.message}
+				error={errors[registerFields.lastName]?.message}
+				helperText={errors[registerFields.lastName]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
-				{...register(researcherFields.email)}
+				{...register(registerFields.email)}
 				type="email"
 				label="Correo Electrónico"
-				error={errors[researcherFields.email]?.message}
-				helperText={errors[researcherFields.email]?.message}
+				error={errors[registerFields.email]?.message}
+				helperText={errors[registerFields.email]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
-				{...register(researcherFields.password)}
+				{...register(registerFields.password)}
 				type="password"
 				label="Contraseña"
-				error={errors[researcherFields.password]?.message}
-				helperText={errors[researcherFields.password]?.message}
+				error={errors[registerFields.password]?.message}
+				helperText={errors[registerFields.password]?.message}
 			/>
 			<TextField
 				{...textFieldStyles}
-				{...register(researcherFields.confirmPassword)}
+				{...register(registerFields.confirmPassword)}
 				type="password"
 				label="Confirmar Contraseña"
-				error={errors[researcherFields.confirmPassword]?.message}
-				helperText={errors[researcherFields.confirmPassword]?.message}
+				error={errors[registerFields.confirmPassword]?.message}
+				helperText={errors[registerFields.confirmPassword]?.message}
 			/>
 			<LoadingButton
 				loading={isLoading}

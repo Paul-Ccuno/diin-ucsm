@@ -4,14 +4,12 @@ import Container from 'components/General/Container'
 import 'styles/globals.css'
 import { ThemeProvider } from '@mui/material'
 import theme from 'styles/theme'
-import cookie from 'cookie'
-// import { getCookie } from 'cookies-next'
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps, user, token }) {
 	return (
 		<>
 			<ThemeProvider theme={theme}>
-				<Navigation />
+				<Navigation user={user} token={token} />
 				<Container>
 					<Component {...pageProps} />
 				</Container>
@@ -29,11 +27,13 @@ function App({ Component, pageProps }) {
 
 App.getInitialProps = async (appContext) => {
 	const { req, res } = appContext.ctx
+	const user = JSON.parse(req.cookies.user || null)
+	const token = req.cookies.token || null
 
-	// console.log({ ...req.cookies })
-	// const { user, token } = req.cookies
-	// console.log(user, token)
-	return { props: {} }
+	return {
+		user,
+		token,
+	}
 }
 
 export default App

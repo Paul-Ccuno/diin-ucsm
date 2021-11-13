@@ -1,7 +1,9 @@
+import moment from 'moment'
 import { EMPTY, VALID } from 'schemas/errors/es'
+import { maxDateAdult } from 'utils'
 import * as yup from 'yup'
 
-export const researcherFields = {
+export const registerFields = {
 	dni: 'dni',
 	email: 'email',
 	password: 'password',
@@ -13,13 +15,11 @@ export const researcherFields = {
 	abstract: 'abstract',
 }
 
-const currentDate = new Date()
-
-const Researcher = yup.object().shape({
+const Register = yup.object().shape({
 	dni: yup
 		.string()
-		.matches(/^\d{8}(?:[-\s]\d{4})?$/, EMPTY.DNI)
-		.required(VALID.DNI),
+		.matches(/^\d{8}(?:[-\s]\d{4})?$/, VALID.DNI)
+		.required(EMPTY.DNI),
 	email: yup.string().email(VALID.EMAIL).required(EMPTY.EMAIL),
 	password: yup.string().required(EMPTY.PASSWORD).min(8, VALID.PASSWORD),
 	confirmPassword: yup
@@ -28,14 +28,9 @@ const Researcher = yup.object().shape({
 		.required(EMPTY.CONFIRMPASSWORD),
 	name: yup.string().required(EMPTY.NAME),
 	lastName: yup.string().required(EMPTY.LASTNAME),
-	birthDate: yup
-		.date()
-		.max(
-			new Date(currentDate - 1000 * 60 * 60 * 24 * 360 * 18),
-			VALID.BIRTHDATE
-		),
+	birthDate: yup.date().max(maxDateAdult(), VALID.BIRTHDATE),
 	avatar: yup.object(),
 	abstract: yup.string(),
 })
 
-export default Researcher
+export default Register

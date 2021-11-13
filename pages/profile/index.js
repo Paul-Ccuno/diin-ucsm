@@ -33,8 +33,6 @@ export const getServerSideProps = async ({ req, res }) => {
 		const user = JSON.parse(req.cookies.user || null)
 		const token = req.cookies.token || null
 
-		console.log(user, token)
-
 		if (!user || !token) {
 			return {
 				redirect: {
@@ -50,7 +48,10 @@ export const getServerSideProps = async ({ req, res }) => {
 		})
 
 		return { props: { user, token, researcher } }
-	} catch (error) {}
+	} catch (error) {
+		console.error(error)
+		return { props: {} }
+	}
 }
 
 export default ProfilePage

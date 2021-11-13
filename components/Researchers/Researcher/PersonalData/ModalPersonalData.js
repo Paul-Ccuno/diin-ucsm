@@ -24,7 +24,7 @@ export default function ModalPersonalData({ researcher }) {
 				<DialogTitle id="responsive-dialog-personal-data">
 					Actualización de Datos personales
 				</DialogTitle>
-				<PersonalDataForm researcher={researcher} />
+				<PersonalDataForm fullScreen={fullScreen} researcher={researcher} />
 			</Dialog>
 		</>
 	)

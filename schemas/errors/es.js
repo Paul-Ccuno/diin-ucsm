@@ -14,5 +14,6 @@ export const VALID = {
 	EMAIL: 'Ingrese un correo electrónico válido',
 	PASSWORD: 'La contraseña debe ser mayor a 8 caracteres',
 	CONFIRMPASSWORD: 'Debe coincidir con la contraseña',
-	BIRTHDATE: 'Debes ser mayor a 18 años para registrarte',
+	BIRTHDATE: 'Debes ser mayor a 18 años',
+	ABSTRACT: 'Su resumen debe contener menos de 200 caracteres',
 }

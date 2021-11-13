@@ -16,8 +16,7 @@ export default function Logout({ color = '#fff' }) {
 
 	const handleClickLogout = async () => {
 		try {
-			setCookies('user')
-			await axios.delete('/api/auth')
+			const res = await axios.delete('/api/auth')
 			router.push('/login')
 		} catch (error) {
 			console.error(error)

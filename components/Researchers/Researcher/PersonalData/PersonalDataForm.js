@@ -1,10 +1,18 @@
-import { LoadingButton } from '@mui/lab'
+import {
+	DesktopDatePicker,
+	LoadingButton,
+	LocalizationProvider,
+	MobileDatePicker,
+} from '@mui/lab'
 import { Button, DialogActions, DialogContent, TextField } from '@mui/material'
+import AdapterMoment from '@mui/lab/AdapterMoment'
 import { ModalContext } from 'contexts'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
-import Researcher, { researcherFields } from 'schemas/Researcher'
+import PersonalData, { personalDataFields } from 'schemas/PersonalData.schema'
+import { maxDateAdult } from 'utils'
+import moment from 'moment'
 
 const textFieldStyles = {
 	fullWidth: true,
@@ -13,60 +21,139 @@ const textFieldStyles = {
 	color: 'success',
 }
 
-export default function PersonalDataForm({ researcher }) {
+export default function PersonalDataForm({ researcher, fullScreen }) {
 	const { setOpen } = useContext(ModalContext)
-	console.log(researcher)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const {
 		register,
+		setValue,
+		getValues,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({ resolver: yupResolver(Researcher) })
+	} = useForm({
+		resolver: yupResolver(PersonalData),
+		defaultValues: {
+			[personalDataFields.abstract]: researcher?.abstract,
+			[personalDataFields.dni]: researcher?.dni,
+			[personalDataFields.name]: researcher?.name,
+			[personalDataFields.lastName]: researcher?.lastName,
+			[personalDataFields.email]: researcher?.email,
+			[personalDataFields.birthDate]: researcher?.birthDate || maxDateAdult(),
+		},
+	})
+	const [birthDate, setBirthDate] = useState(
+		getValues(personalDataFields.birthDate)
+	)
+
+	const handleSubmitPersonalData = async (values) => {
+		try {
+			setIsLoading(true)
+			console.log(values)
+			setIsLoading(false)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<>
-			<form>
+			<form onSubmit={handleSubmit(handleSubmitPersonalData)}>
 				<DialogContent>
 					<div className="form-fields">
 						<TextField
 							{...textFieldStyles}
-							{...register(researcherFields.abstract)}
-							multiline
-							rows={4}
+							{...register(personalDataFields.abstract)}
 							label="Resumen"
-							value={researcher?.abstract || ''}
+							error={errors[personalDataFields.abstract]?.message && true}
+							multiline
+							maxRows={5}
+							helperText={errors[personalDataFields.abstract]?.message}
 						/>
 						<TextField
 							{...textFieldStyles}
-							{...register(researcherFields.dni)}
+							{...register(personalDataFields.dni)}
 							type="number"
 							label="DNI"
-							value={researcher?.dni || ''}
+							error={errors[personalDataFields.dni]?.message && true}
+							helperText={errors[personalDataFields.dni]?.message}
 						/>
 						<TextField
 							{...textFieldStyles}
-							{...register(researcherFields.name)}
+							{...register(personalDataFields.name)}
 							label="Nombre"
-							value={researcher?.name || ''}
+							error={errors[personalDataFields.name]?.message && true}
+							helperText={errors[personalDataFields.name]?.message}
 						/>
 						<TextField
 							{...textFieldStyles}
-							{...register(researcherFields.lastName)}
+							{...register(personalDataFields.lastName)}
 							label="Apellido"
-							value={researcher?.lastName || ''}
+							error={errors[personalDataFields.lastName]?.message && true}
+							helperText={errors[personalDataFields.lastName]?.message}
 						/>
 						<TextField
 							{...textFieldStyles}
-							{...register(researcherFields.email)}
+							{...register(personalDataFields.email)}
 							label="Correo electrónico"
-							value={researcher?.email || ''}
+							error={errors[personalDataFields.email]?.message && true}
+							helperText={errors[personalDataFields.email]?.message}
 						/>
-						<TextField
-							{...textFieldStyles}
-							{...register(researcherFields.birthDate)}
-							type="date"
-							label="Fecha de nacimiento"
-							value={researcher?.birthDate || ''}
-						/>
+						<LocalizationProvider dateAdapter={AdapterMoment}>
+							{fullScreen ? (
+								<MobileDatePicker
+									maxDate={moment(maxDateAdult())}
+									inputFormat="DD/MM/YYYY"
+									mask="__/__/___"
+									onChange={(value) => {
+										setBirthDate(value)
+										setValue(
+											personalDataFields.birthDate,
+											value.format('DD/MM/YYYY')
+										)
+									}}
+									value={birthDate}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											{...textFieldStyles}
+											{...register(personalDataFields.birthDate)}
+											label="Fecha de nacimiento"
+											error={
+												errors[personalDataFields.birthDate]?.message && true
+											}
+											helperText={errors[personalDataFields.birthDate]?.message}
+										/>
+									)}
+								/>
+							) : (
+								<DesktopDatePicker
+									maxDate={moment(maxDateAdult())}
+									inputFormat="DD/MM/YYYY"
+									mask="__/__/___"
+									onChange={(value) => {
+										setBirthDate(value)
+										setValue(
+											personalDataFields.birthDate,
+											value.format('DD/MM/YYYY') || undefined
+										)
+									}}
+									value={birthDate}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											{...textFieldStyles}
+											{...register(personalDataFields.birthDate)}
+											label="Fecha de nacimiento"
+											error={
+												errors[personalDataFields.birthDate]?.message && true
+											}
+											helperText={errors[personalDataFields.birthDate]?.message}
+										/>
+									)}
+								/>
+							)}
+						</LocalizationProvider>
 					</div>
 				</DialogContent>
 				<DialogActions>
@@ -77,7 +164,12 @@ export default function PersonalDataForm({ researcher }) {
 					>
 						Cancel
 					</Button>
-					<LoadingButton color="success" variant="contained" type="submit">
+					<LoadingButton
+						loading={isLoading}
+						type="submit"
+						color="success"
+						variant="contained"
+					>
 						Enviar
 					</LoadingButton>
 				</DialogActions>

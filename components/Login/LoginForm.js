@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-import Login, { loginFields } from 'schemas/Login'
+import Login, { loginFields } from 'schemas/Login.schema'
 import { Button, TextField, Alert } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useForm } from 'react-hook-form'

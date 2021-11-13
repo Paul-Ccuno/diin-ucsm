@@ -1,11 +1,11 @@
 import NavbarLeft from './NavbarLeft'
 import NavbarRight from './NavbarRight'
 
-export default function Navbar() {
+export default function Navbar({ user, token }) {
 	return (
 		<nav className="Navbar">
 			<NavbarLeft />
-			<NavbarRight />
+			<NavbarRight user={user} token={token} />
 			<style jsx>{`
 				.Navbar {
 					margin: auto;

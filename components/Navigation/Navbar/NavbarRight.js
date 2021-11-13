@@ -5,7 +5,6 @@ import { commonRoutes, publicRoutes, privateRoutes } from '../routes'
 import NavbarSection from './NavbarSection'
 import NavigationLink from '../NavigationLink'
 import { useEffect, useState } from 'react'
-import { getCookie } from 'cookies-next'
 import Logout from '../Logout'
 
 const buttonStyles = {
@@ -21,10 +20,7 @@ const getWindowSize = () => {
 	return innerWidth
 }
 
-export default function NavbarRight({ children }) {
-	const user = JSON.parse(getCookie('user') || null)
-
-	const [profile, setProfile] = useState(user)
+export default function NavbarRight({ user, token }) {
 	const [routes, setRoutes] = useState([])
 	const [windowSize, setWindowSize] = useState(null)
 
@@ -60,7 +56,7 @@ export default function NavbarRight({ children }) {
 						<Button {...buttonStyles}>{text}</Button>
 					</NavigationLink>
 				))}
-				{profile && <Logout />}
+				{user && <Logout />}
 			</>
 		)
 	}
@@ -68,7 +64,11 @@ export default function NavbarRight({ children }) {
 	const MobileNavbar = () => {
 		return (
 			<>
-				<Sidebar routes={[...commonRoutes, ...routes]} />
+				<Sidebar
+					routes={[...commonRoutes, ...routes]}
+					user={user}
+					token={token}
+				/>
 			</>
 		)
 	}
