@@ -36,4 +36,13 @@ const theme = createTheme({
 	},
 })
 
+export const textFieldStyles = {
+	fullWidth: true,
+	variant: 'standard',
+	size: 'small',
+	color: 'success',
+}
+
+export const datePickerStyles = {}
+
 export default theme

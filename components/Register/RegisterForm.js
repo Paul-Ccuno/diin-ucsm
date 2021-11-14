@@ -1,33 +1,53 @@
+import api from 'services/api'
 import Register, { registerFields } from 'schemas/Register.schema'
-import { Alert, Button, TextField } from '@mui/material'
-import { useState } from 'react'
+import { Alert, TextField, useMediaQuery, useTheme } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { useForm } from 'react-hook-form'
-import { LoadingButton } from '@mui/lab'
+import {
+	DesktopDatePicker,
+	LoadingButton,
+	LocalizationProvider,
+	MobileDatePicker,
+} from '@mui/lab'
 import { useRouter } from 'next/router'
-import api from 'services/api'
-
-const textFieldStyles = {
-	fullWidth: true,
-	variant: 'standard',
-	size: 'small',
-	color: 'success',
-}
+import { textFieldStyles, datePickerStyles } from 'styles/theme'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import { maxDateAdult } from 'utils'
 
 export default function RegisterForm() {
 	const router = useRouter()
+
+	const theme = useTheme()
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
 	const [successRequest, setSuccessRequest] = useState(false)
 	const [badRequest, setBadRequest] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 
+	const maxDate = maxDateAdult()
+
 	const {
 		register,
 		handleSubmit,
+		setValue,
+		getValues,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(Register),
+		defaultValues: {
+			[registerFields.birthDate]: maxDate.toString(),
+		},
 	})
+
+	const [birthDate, setBirthDate] = useState(
+		getValues(registerFields.birthDate)
+	)
+
+	useEffect(() => {
+		console.log('input', getValues(registerFields.birthDate))
+		console.log('moment', birthDate)
+	}, [getValues, birthDate])
 
 	const handleSubmitRegisterForm = async (values) => {
 		try {
@@ -93,6 +113,52 @@ export default function RegisterForm() {
 				error={errors[registerFields.confirmPassword]?.message}
 				helperText={errors[registerFields.confirmPassword]?.message}
 			/>
+			<LocalizationProvider dateAdapter={AdapterDateFns}>
+				{fullScreen ? (
+					<MobileDatePicker
+						maxDate={maxDate}
+						{...datePickerStyles}
+						onChange={(value) => {
+							setBirthDate(value)
+							setValue(registerFields.birthDate, value)
+						}}
+						value={birthDate}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								{...textFieldStyles}
+								{...register(registerFields.birthDate)}
+								label="Fecha de nacimiento"
+								error={errors[registerFields.birthDate]?.message && true}
+								helperText={errors[registerFields.birthDate]?.message}
+							/>
+						)}
+					/>
+				) : (
+					<DesktopDatePicker
+						maxDate={maxDate}
+						{...datePickerStyles}
+						onChange={(value) => {
+							setBirthDate(value)
+							setValue(
+								registerFields.birthDate,
+								setValue(registerFields.birthDate, value)
+							)
+						}}
+						value={birthDate}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								{...textFieldStyles}
+								{...register(registerFields.birthDate)}
+								label="Fecha de nacimiento"
+								error={errors[registerFields.birthDate]?.message && true}
+								helperText={errors[registerFields.birthDate]?.message}
+							/>
+						)}
+					/>
+				)}
+			</LocalizationProvider>
 			<LoadingButton
 				loading={isLoading}
 				fullWidth

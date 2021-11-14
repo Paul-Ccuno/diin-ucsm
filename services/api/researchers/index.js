@@ -16,3 +16,18 @@ export const getResearcher = async ({ id, token }) => {
 		throw error
 	}
 }
+
+export const updateResearcher = async ({ id, data, token }) => {
+	try {
+		const res = await put({
+			url: `${URL}/${id}`,
+			data,
+			token,
+		})
+		if (res.success) return res.data
+		throw res.message
+	} catch (error) {
+		console.log(error)
+		throw error
+	}
+}

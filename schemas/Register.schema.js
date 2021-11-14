@@ -28,7 +28,10 @@ const Register = yup.object().shape({
 		.required(EMPTY.CONFIRMPASSWORD),
 	name: yup.string().required(EMPTY.NAME),
 	lastName: yup.string().required(EMPTY.LASTNAME),
-	birthDate: yup.date().max(maxDateAdult(), VALID.BIRTHDATE),
+	birthDate: yup
+		.date('Ingrese una fecha valida')
+		.max(maxDateAdult(), VALID.BIRTHDATE)
+		.required(EMPTY.BIRTHDATE),
 	avatar: yup.object(),
 	abstract: yup.string(),
 })

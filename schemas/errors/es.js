@@ -6,6 +6,7 @@ export const EMPTY = {
 	CONFIRMPASSWORD: 'La confirmación de la contraseña es requerida',
 	NAME: 'El nombre es requerido',
 	LASTNAME: 'El apellido es requerido',
+	BIRTHDATE: 'La fecha de nacimiento es requerida',
 }
 
 // Validaciones de campos con ...

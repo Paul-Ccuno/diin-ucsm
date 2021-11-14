@@ -5,25 +5,20 @@ import {
 	MobileDatePicker,
 } from '@mui/lab'
 import { Button, DialogActions, DialogContent, TextField } from '@mui/material'
-import AdapterMoment from '@mui/lab/AdapterMoment'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import { ModalContext } from 'contexts'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import PersonalData, { personalDataFields } from 'schemas/PersonalData.schema'
 import { maxDateAdult } from 'utils'
-import moment from 'moment'
-
-const textFieldStyles = {
-	fullWidth: true,
-	variant: 'standard',
-	size: 'small',
-	color: 'success',
-}
+import { textFieldStyles, datePickerStyles } from 'styles/theme'
+import { format } from 'date-fns'
 
 export default function PersonalDataForm({ researcher, fullScreen }) {
 	const { setOpen } = useContext(ModalContext)
 	const [isLoading, setIsLoading] = useState(false)
+	const maxDate = maxDateAdult()
 
 	const {
 		register,
@@ -39,7 +34,7 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 			[personalDataFields.name]: researcher?.name,
 			[personalDataFields.lastName]: researcher?.lastName,
 			[personalDataFields.email]: researcher?.email,
-			[personalDataFields.birthDate]: researcher?.birthDate || maxDateAdult(),
+			[personalDataFields.birthDate]: researcher?.birthDate || null,
 		},
 	})
 	const [birthDate, setBirthDate] = useState(
@@ -99,17 +94,16 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 							error={errors[personalDataFields.email]?.message && true}
 							helperText={errors[personalDataFields.email]?.message}
 						/>
-						<LocalizationProvider dateAdapter={AdapterMoment}>
+						<LocalizationProvider dateAdapter={AdapterDateFns}>
 							{fullScreen ? (
 								<MobileDatePicker
-									maxDate={moment(maxDateAdult())}
-									inputFormat="DD/MM/YYYY"
-									mask="__/__/___"
+									maxDate={maxDate}
+									{...datePickerStyles}
 									onChange={(value) => {
 										setBirthDate(value)
 										setValue(
 											personalDataFields.birthDate,
-											value.format('DD/MM/YYYY')
+											format(value, 'MM/dd/yyyy')
 										)
 									}}
 									value={birthDate}
@@ -128,15 +122,11 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 								/>
 							) : (
 								<DesktopDatePicker
-									maxDate={moment(maxDateAdult())}
-									inputFormat="DD/MM/YYYY"
-									mask="__/__/___"
+									maxDate={maxDate}
+									{...datePickerStyles}
 									onChange={(value) => {
 										setBirthDate(value)
-										setValue(
-											personalDataFields.birthDate,
-											value.format('DD/MM/YYYY') || undefined
-										)
+										setValue(personalDataFields.birthDate, value)
 									}}
 									value={birthDate}
 									renderInput={(params) => (
