@@ -13,7 +13,8 @@ import {
 import { useRouter } from 'next/router'
 import { textFieldStyles, datePickerStyles } from 'styles/theme'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import { maxDateAdult } from 'utils'
+import { es } from 'date-fns/locale'
+import { dateReadOnly, maxDateAdult } from 'utils'
 
 export default function RegisterForm() {
 	const router = useRouter()
@@ -113,7 +114,7 @@ export default function RegisterForm() {
 				error={errors[registerFields.confirmPassword]?.message}
 				helperText={errors[registerFields.confirmPassword]?.message}
 			/>
-			<LocalizationProvider dateAdapter={AdapterDateFns}>
+			<LocalizationProvider dateAdapter={AdapterDateFns} locale={es}>
 				{fullScreen ? (
 					<MobileDatePicker
 						maxDate={maxDate}
@@ -128,6 +129,7 @@ export default function RegisterForm() {
 								{...params}
 								{...textFieldStyles}
 								{...register(registerFields.birthDate)}
+								onKeyDown={dateReadOnly}
 								label="Fecha de nacimiento"
 								error={errors[registerFields.birthDate]?.message && true}
 								helperText={errors[registerFields.birthDate]?.message}
@@ -140,10 +142,7 @@ export default function RegisterForm() {
 						{...datePickerStyles}
 						onChange={(value) => {
 							setBirthDate(value)
-							setValue(
-								registerFields.birthDate,
-								setValue(registerFields.birthDate, value)
-							)
+							setValue(registerFields.birthDate, value)
 						}}
 						value={birthDate}
 						renderInput={(params) => (
@@ -151,6 +150,7 @@ export default function RegisterForm() {
 								{...params}
 								{...textFieldStyles}
 								{...register(registerFields.birthDate)}
+								onKeyDown={dateReadOnly}
 								label="Fecha de nacimiento"
 								error={errors[registerFields.birthDate]?.message && true}
 								helperText={errors[registerFields.birthDate]?.message}

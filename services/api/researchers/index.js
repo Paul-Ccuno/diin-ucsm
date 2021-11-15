@@ -1,4 +1,4 @@
-import { get } from 'services/api/axios.service'
+import { get, put } from 'services/api/axios.service'
 
 const URL = '/researchers'
 

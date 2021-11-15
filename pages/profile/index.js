@@ -15,7 +15,7 @@ function ProfilePage({ user, token, researcher }) {
 			</Head>
 
 			<ProfileContainer>
-				<Profile profile={researcher} />
+				<Profile profile={researcher} token={token} />
 			</ProfileContainer>
 
 			<style jsx>{`

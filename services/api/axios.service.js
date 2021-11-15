@@ -6,7 +6,7 @@ async function send({ method, url, data, token }) {
 		const res = await axios({
 			headers: {
 				'Content-Type': 'application/json',
-				...(token ? { Authorization: `${AUTH_SECRET} ${token}` } : {}),
+				...(token ? { Authorization: `${token}` } : {}),
 			},
 			method,
 			baseURL: `${API_BASE_URL}/api`,

@@ -1,4 +1,4 @@
-import { maxDateAdult } from 'utils'
+import { maxDateAdult, parseDateString } from 'utils'
 import * as yup from 'yup'
 import { EMPTY, VALID } from './errors/es'
 
@@ -21,7 +21,11 @@ const PersonalData = yup.object().shape({
 	name: yup.string().required(EMPTY.NAME),
 	lastName: yup.string().required(EMPTY.LASTNAME),
 	email: yup.string().email(VALID.EMAIL).required(EMPTY.EMAIL),
-	birthDate: yup.date().max(maxDateAdult(), VALID.BIRTHDATE),
+	birthDate: yup
+		.date()
+		.transform(parseDateString)
+		.max(maxDateAdult(), VALID.BIRTHDATE)
+		.required(EMPTY.BIRTHDATE),
 	avatar: yup.object(),
 })
 

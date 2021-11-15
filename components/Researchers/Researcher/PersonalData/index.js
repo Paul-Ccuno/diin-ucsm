@@ -10,7 +10,11 @@ import { EditOutlined } from '@mui/icons-material'
 import ModalPersonalData from './ModalPersonalData'
 import { ModalContext } from 'contexts'
 
-export default function PersonalData({ researcher, isAuthenticated = false }) {
+export default function PersonalData({
+	researcher,
+	isAuthenticated = false,
+	token,
+}) {
 	const [edit, setEdit] = useState(false)
 
 	return (
@@ -49,7 +53,7 @@ export default function PersonalData({ researcher, isAuthenticated = false }) {
 							/>
 						</div>
 					</ResearcherInfoContainer>
-					<ModalPersonalData researcher={researcher} />
+					<ModalPersonalData researcher={researcher} token={token} />
 				</div>
 			</ModalContext.Provider>
 

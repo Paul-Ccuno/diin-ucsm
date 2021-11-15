@@ -8,11 +8,12 @@ const Transition = forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />
 })
 
-export default function ModalPersonalData({ researcher }) {
+export default function ModalPersonalData({ researcher, token }) {
 	const { open } = useContext(ModalContext)
 
 	const theme = useTheme()
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
 	return (
 		<>
 			<Dialog
@@ -24,7 +25,11 @@ export default function ModalPersonalData({ researcher }) {
 				<DialogTitle id="responsive-dialog-personal-data">
 					Actualización de Datos personales
 				</DialogTitle>
-				<PersonalDataForm fullScreen={fullScreen} researcher={researcher} />
+				<PersonalDataForm
+					fullScreen={fullScreen}
+					researcher={researcher}
+					token={token}
+				/>
 			</Dialog>
 		</>
 	)

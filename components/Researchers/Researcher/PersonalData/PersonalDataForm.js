@@ -6,16 +6,17 @@ import {
 } from '@mui/lab'
 import { Button, DialogActions, DialogContent, TextField } from '@mui/material'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import { es } from 'date-fns/locale'
 import { ModalContext } from 'contexts'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import PersonalData, { personalDataFields } from 'schemas/PersonalData.schema'
-import { maxDateAdult } from 'utils'
+import { dateReadOnly, maxDateAdult } from 'utils'
 import { textFieldStyles, datePickerStyles } from 'styles/theme'
-import { format } from 'date-fns'
+import api from 'services/api'
 
-export default function PersonalDataForm({ researcher, fullScreen }) {
+export default function PersonalDataForm({ researcher, fullScreen, token }) {
 	const { setOpen } = useContext(ModalContext)
 	const [isLoading, setIsLoading] = useState(false)
 	const maxDate = maxDateAdult()
@@ -34,7 +35,7 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 			[personalDataFields.name]: researcher?.name,
 			[personalDataFields.lastName]: researcher?.lastName,
 			[personalDataFields.email]: researcher?.email,
-			[personalDataFields.birthDate]: researcher?.birthDate || null,
+			[personalDataFields.birthDate]: new Date(researcher?.birthDate),
 		},
 	})
 	const [birthDate, setBirthDate] = useState(
@@ -44,9 +45,15 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 	const handleSubmitPersonalData = async (values) => {
 		try {
 			setIsLoading(true)
-			console.log(values)
-			setIsLoading(false)
+			const res = await api.researchers.updateResearcher({
+				id: researcher._id,
+				data: values,
+				token,
+			})
+			console.log(res)
+			setOpen(false)
 		} catch (error) {
+			setIsLoading(false)
 			console.log(error)
 		}
 	}
@@ -94,17 +101,14 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 							error={errors[personalDataFields.email]?.message && true}
 							helperText={errors[personalDataFields.email]?.message}
 						/>
-						<LocalizationProvider dateAdapter={AdapterDateFns}>
+						<LocalizationProvider dateAdapter={AdapterDateFns} locale={es}>
 							{fullScreen ? (
 								<MobileDatePicker
 									maxDate={maxDate}
 									{...datePickerStyles}
 									onChange={(value) => {
 										setBirthDate(value)
-										setValue(
-											personalDataFields.birthDate,
-											format(value, 'MM/dd/yyyy')
-										)
+										setValue(personalDataFields.birthDate, value)
 									}}
 									value={birthDate}
 									renderInput={(params) => (
@@ -112,6 +116,7 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 											{...params}
 											{...textFieldStyles}
 											{...register(personalDataFields.birthDate)}
+											onKeyDown={dateReadOnly}
 											label="Fecha de nacimiento"
 											error={
 												errors[personalDataFields.birthDate]?.message && true
@@ -134,6 +139,7 @@ export default function PersonalDataForm({ researcher, fullScreen }) {
 											{...params}
 											{...textFieldStyles}
 											{...register(personalDataFields.birthDate)}
+											onKeyDown={dateReadOnly}
 											label="Fecha de nacimiento"
 											error={
 												errors[personalDataFields.birthDate]?.message && true

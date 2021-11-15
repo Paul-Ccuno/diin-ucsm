@@ -1,6 +1,5 @@
-import moment from 'moment'
 import { EMPTY, VALID } from 'schemas/errors/es'
-import { maxDateAdult } from 'utils'
+import { maxDateAdult, parseDateString } from 'utils'
 import * as yup from 'yup'
 
 export const registerFields = {
@@ -30,6 +29,7 @@ const Register = yup.object().shape({
 	lastName: yup.string().required(EMPTY.LASTNAME),
 	birthDate: yup
 		.date('Ingrese una fecha valida')
+		.transform(parseDateString)
 		.max(maxDateAdult(), VALID.BIRTHDATE)
 		.required(EMPTY.BIRTHDATE),
 	avatar: yup.object(),
