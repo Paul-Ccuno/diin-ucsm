@@ -15,9 +15,11 @@ import PersonalData, { personalDataFields } from 'schemas/PersonalData.schema'
 import { dateReadOnly, maxDateAdult } from 'utils'
 import { textFieldStyles, datePickerStyles } from 'styles/theme'
 import api from 'services/api'
+import SnackbarContext from 'contexts/SnackbarContext'
 
 export default function PersonalDataForm({ researcher, fullScreen, token }) {
-	const { setOpen } = useContext(ModalContext)
+	const { setOpen, setData } = useContext(ModalContext)
+	const { setOpenSnackbar, setSnackbarMessage } = useContext(SnackbarContext)
 	const [isLoading, setIsLoading] = useState(false)
 	const maxDate = maxDateAdult()
 
@@ -50,7 +52,9 @@ export default function PersonalDataForm({ researcher, fullScreen, token }) {
 				data: values,
 				token,
 			})
-			console.log(res)
+			setSnackbarMessage('Datos personales actualizados')
+			setOpenSnackbar(true)
+			setData(res)
 			setOpen(false)
 		} catch (error) {
 			setIsLoading(false)
@@ -69,6 +73,7 @@ export default function PersonalDataForm({ researcher, fullScreen, token }) {
 							label="Resumen"
 							error={errors[personalDataFields.abstract]?.message && true}
 							multiline
+							rows={4}
 							maxRows={5}
 							helperText={errors[personalDataFields.abstract]?.message}
 						/>
@@ -158,7 +163,7 @@ export default function PersonalDataForm({ researcher, fullScreen, token }) {
 						variant="contained"
 						onClick={() => setOpen(false)}
 					>
-						Cancel
+						Cancelar
 					</Button>
 					<LoadingButton
 						loading={isLoading}

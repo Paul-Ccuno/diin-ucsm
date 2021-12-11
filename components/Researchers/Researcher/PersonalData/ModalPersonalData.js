@@ -2,6 +2,7 @@ import { Dialog, DialogTitle, useMediaQuery, Slide } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ModalContext } from 'contexts'
 import { forwardRef, useContext, useState } from 'react'
+import { colors } from 'styles/theme'
 import PersonalDataForm from './PersonalDataForm'
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -17,12 +18,17 @@ export default function ModalPersonalData({ researcher, token }) {
 	return (
 		<>
 			<Dialog
+				fullWidth={true}
+				maxWidth="sm"
 				fullScreen={fullScreen}
 				TransitionComponent={Transition}
 				open={open}
 				aria-labelledby="responsive-dialog-personal-data"
 			>
-				<DialogTitle id="responsive-dialog-personal-data">
+				<DialogTitle
+					id="responsive-dialog-personal-data"
+					color={colors.success}
+				>
 					Actualización de Datos personales
 				</DialogTitle>
 				<PersonalDataForm

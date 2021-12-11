@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import api from 'services/api'
 
-export default function Researchers() {
+export default function Researchers({ researchers }) {
+	console.log(researchers)
 	return (
 		<>
 			<Head>
@@ -10,18 +12,26 @@ export default function Researchers() {
 			<div className="Researchers">
 				Investigadores
 				<div className="Table">
-					<Link href={'/researchers/2'}>
-						<a>2</a>
-					</Link>
-					<Link href={'/researchers/1'}>
-						<a>1</a>
-					</Link>
+					{researchers.map((researcher) => (
+						<Link
+							key={`researcher-${researcher._id}`}
+							href={`/researchers/${researcher._id}`}
+						>
+							<a>{researcher.name}</a>
+						</Link>
+					))}
 				</div>
 			</div>
 		</>
 	)
 }
 
-export const getServerSideProps = ({ req, res }) => {
-	return { props: {} }
+export const getServerSideProps = async ({ req, res }) => {
+	const researchers = await api.researchers.getResearchers()
+
+	return {
+		props: {
+			researchers,
+		},
+	}
 }

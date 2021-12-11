@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import profileDefault from 'assets/images/profile-default.svg'
 import ResearcherInfoContainer from '../../ResearcherInfoContainer'
 import DataContainer from '../../DataContainer'
@@ -9,17 +9,22 @@ import { EditOutlined } from '@mui/icons-material'
 
 import ModalPersonalData from './ModalPersonalData'
 import { ModalContext } from 'contexts'
+import { format } from 'date-fns'
 
-export default function PersonalData({
-	researcher,
-	isAuthenticated = false,
-	token,
-}) {
+export default function PersonalData({ researcher, token }) {
 	const [edit, setEdit] = useState(false)
+	const [personalData, setPersonalData] = useState(researcher)
 
 	return (
 		<>
-			<ModalContext.Provider value={{ open: edit, setOpen: setEdit }}>
+			<ModalContext.Provider
+				value={{
+					open: edit,
+					setOpen: setEdit,
+					data: personalData,
+					setData: setPersonalData,
+				}}
+			>
 				<div className="Personal-data">
 					<div className="edit">
 						<IconButton
@@ -33,27 +38,27 @@ export default function PersonalData({
 					<ResearcherInfoContainer>
 						<div className="image-profile">
 							<Image
-								alt={`${researcher.name} ${researcher.lastName}`}
+								alt={`${personalData.name} ${personalData.lastName}`}
 								src={profileDefault}
 								layout="responsive"
 							/>
 						</div>
 						<div className="data-profile">
-							<DataContainer label="Resumen" data={researcher.abstract} />
-							<DataContainer label="DNI" data={researcher.dni} />
-							<DataContainer label="Nombre" data={researcher.name} />
-							<DataContainer label="Apellido" data={researcher.lastName} />
+							<DataContainer label="Resumen" data={personalData.abstract} />
+							<DataContainer label="DNI" data={personalData.dni} />
+							<DataContainer label="Nombre" data={personalData.name} />
+							<DataContainer label="Apellido" data={personalData.lastName} />
 							<DataContainer
 								label="Correo electrónico"
-								data={researcher.email}
+								data={personalData.email}
 							/>
 							<DataContainer
 								label="Fecha de nacimiento"
-								data={researcher.birdthDate}
+								data={format(new Date(personalData.birthDate), 'dd/MM/yyyy')}
 							/>
 						</div>
 					</ResearcherInfoContainer>
-					<ModalPersonalData researcher={researcher} token={token} />
+					<ModalPersonalData researcher={personalData} token={token} />
 				</div>
 			</ModalContext.Provider>
 
@@ -80,15 +85,14 @@ export default function PersonalData({
 					display: inline-block;
 					top: 4.3rem;
 					left: 95%;
-					opacity: 0;
-					transform: translateX(3rem);
 					transition: 0.5s transform, 0.5s opacity;
 				}
+			`}</style>
+			{/* 			transform: translateX(3rem);
 				.Personal-data:hover .edit {
 					opacity: 1;
 					transform: translateX(0);
-				}
-			`}</style>
+				} */}
 		</>
 	)
 }
