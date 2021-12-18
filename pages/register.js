@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 import RegisterForm from 'components/Register/RegisterForm'
+import Title from 'components/General/Title'
 
 export default function Register() {
 	return (
@@ -8,11 +9,16 @@ export default function Register() {
 			<Head>
 				<title>Directorio de Investigadores - UCSM</title>
 			</Head>
-
-			<div className="Title">
-				<h1>Register DIIN UCSM</h1>
+			<div className="Register-container">
+				<Title>Register DIIN UCSM</Title>
+				<RegisterForm />
 			</div>
-			<RegisterForm />
+			<style jsx>{`
+				.Register-container {
+					margin: auto;
+					max-width: 450px;
+				}
+			`}</style>
 		</>
 	)
 }

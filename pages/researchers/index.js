@@ -2,26 +2,60 @@ import Head from 'next/head'
 import Link from 'next/link'
 import api from 'services/api'
 
+import ResearcherCard from 'components/Researchers/ResearcherCard'
+import Title from 'components/General/Title'
+import { InputAdornment, TextField } from '@mui/material'
+import { Search } from '@mui/icons-material'
+import Container from 'components/General/Container'
+
 export default function Researchers({ researchers }) {
-	console.log(researchers)
 	return (
 		<>
 			<Head>
 				<title>Investigadores</title>
 			</Head>
-			<div className="Researchers">
-				Investigadores
-				<div className="Table">
-					{researchers.map((researcher) => (
-						<Link
-							key={`researcher-${researcher._id}`}
-							href={`/researchers/${researcher._id}`}
-						>
-							<a>{researcher.name}</a>
-						</Link>
-					))}
+			<Container>
+				<div className="Researchers">
+					<Title>
+						<span className="title">Investigadores</span>
+						<TextField
+							placeholder="Search"
+							variant="outlined"
+							size="small"
+							color="success"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<Search />
+									</InputAdornment>
+								),
+							}}
+						/>
+					</Title>
+
+					<div className="Grid">
+						{researchers.map((researcher) => (
+							<ResearcherCard
+								key={`researcher-${researcher._id}`}
+								researcher={researcher}
+							/>
+						))}
+					</div>
 				</div>
-			</div>
+			</Container>
+			<style jsx>{`
+				.Researchers {
+				}
+				.Grid {
+					display: grid;
+					justify-content: center;
+					grid-template-columns: repeat(auto-fill, minmax(200px, 460px));
+					gap: 10px;
+				}
+				.title {
+					margin-right: 1em;
+				}
+			`}</style>
 		</>
 	)
 }

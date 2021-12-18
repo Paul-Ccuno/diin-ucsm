@@ -15,11 +15,10 @@ export const getResearchers = async () => {
 	}
 }
 
-export const getResearcher = async ({ id, token }) => {
+export const getResearcher = async ({ id }) => {
 	try {
 		const res = await get({
 			url: `${URL}/${id}`,
-			token,
 		})
 
 		if (res.success) return res.data

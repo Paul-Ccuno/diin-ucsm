@@ -26,15 +26,17 @@ export default function PersonalData({ researcher, token }) {
 				}}
 			>
 				<div className="Personal-data">
-					<div className="edit">
-						<IconButton
-							color="success"
-							style={{ backgroundColor: '#00bf661a' }}
-							onClick={() => setEdit(true)}
-						>
-							<EditOutlined />
-						</IconButton>
-					</div>
+					{token && (
+						<div className="edit">
+							<IconButton
+								color="success"
+								style={{ backgroundColor: '#00bf661a' }}
+								onClick={() => setEdit(true)}
+							>
+								<EditOutlined />
+							</IconButton>
+						</div>
+					)}
 					<ResearcherInfoContainer>
 						<div className="image-profile">
 							<Image

@@ -44,7 +44,6 @@ export const getServerSideProps = async ({ req, res }) => {
 
 		const researcher = await api.researchers.getResearcher({
 			id: user._id,
-			token,
 		})
 
 		return { props: { user, token, researcher } }

@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 import LoginForm from 'components/Login/LoginForm'
+import Title from 'components/General/Title'
 
 export default function Login() {
 	return (
@@ -9,10 +10,16 @@ export default function Login() {
 				<title>Directorio de Investigadores UCSM - Login</title>
 			</Head>
 
-			<div className="Title">
-				<h1>Login DIIN UCSM</h1>
+			<div className="Login-container">
+				<Title>Login DIIN UCSM</Title>
+				<LoginForm />
 			</div>
-			<LoginForm />
+			<style jsx>{`
+				.Login-container {
+					margin: auto;
+					max-width: 450px;
+				}
+			`}</style>
 		</>
 	)
 }
