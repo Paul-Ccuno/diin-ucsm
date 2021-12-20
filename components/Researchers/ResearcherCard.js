@@ -53,6 +53,13 @@ export default function ResearcherCard({ researcher }) {
 				.Researcher-card:hover > .left > p {
 					color: ${colors.success};
 				}
+
+				.abstract {
+					display: -webkit-inline-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+				}
 			`}</style>
 		</>
 	)

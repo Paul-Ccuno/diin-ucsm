@@ -14,37 +14,36 @@ export default function Researchers({ researchers }) {
 			<Head>
 				<title>Investigadores</title>
 			</Head>
-			<Container>
-				<div className="Researchers">
-					<Title>
-						<span className="title">Investigadores</span>
-						<TextField
-							placeholder="Search"
-							variant="outlined"
-							size="small"
-							color="success"
-							InputProps={{
-								startAdornment: (
-									<InputAdornment position="start">
-										<Search />
-									</InputAdornment>
-								),
-							}}
-						/>
-					</Title>
 
-					<div className="Grid">
-						{researchers.map((researcher) => (
-							<ResearcherCard
-								key={`researcher-${researcher._id}`}
-								researcher={researcher}
-							/>
-						))}
-					</div>
+			<div className="Researchers-container">
+				<Title>
+					<span className="title">Investigadores</span>
+					<TextField
+						placeholder="Search"
+						variant="outlined"
+						size="small"
+						color="success"
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									<Search />
+								</InputAdornment>
+							),
+						}}
+					/>
+				</Title>
+
+				<div className="Grid">
+					{researchers.map((researcher) => (
+						<ResearcherCard
+							key={`researcher-${researcher._id}`}
+							researcher={researcher}
+						/>
+					))}
 				</div>
-			</Container>
+			</div>
 			<style jsx>{`
-				.Researchers {
+				.Researchers-container {
 				}
 				.Grid {
 					display: grid;
