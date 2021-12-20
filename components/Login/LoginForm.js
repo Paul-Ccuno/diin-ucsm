@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
+import api from 'services/api'
 import Login, { loginFields } from 'schemas/Login.schema'
+import { yupResolver } from '@hookform/resolvers/yup'
+
 import { Button, TextField, Alert } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
-import api from 'services/api'
 
 const textFieldStyles = {
 	fullWidth: true,

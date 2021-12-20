@@ -1,20 +1,23 @@
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import api from 'services/api'
 import Register, { registerFields } from 'schemas/Register.schema'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { dateReadOnly, maxDateAdult } from 'utils'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import { es } from 'date-fns/locale'
+
 import { Alert, TextField, useMediaQuery, useTheme } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
-import { useForm } from 'react-hook-form'
+
 import {
 	DesktopDatePicker,
 	LoadingButton,
 	LocalizationProvider,
 	MobileDatePicker,
 } from '@mui/lab'
-import { useRouter } from 'next/router'
 import { textFieldStyles, datePickerStyles } from 'styles/theme'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import { es } from 'date-fns/locale'
-import { dateReadOnly, maxDateAdult } from 'utils'
 
 export default function RegisterForm() {
 	const router = useRouter()
